@@ -1,0 +1,87 @@
+<div class="widgets">
+    <div class="row" ng-if="assistLoaded">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-class="with-scroll" ng-switch on="vm.profilExistant">
+              <div ng-switch-when="0">
+                <ba-wizard action="vm.action()">
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.DEBUT' | translate }}" name="vm.debutForm" novalidate>
+                        <div ng-include="'app/pages/priver/assistant/step/debut.html'"></div>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.PROFIL' | translate }}" form="vm.profilForm" novalidate>
+                        <form name="vm.profilForm" novalidate class="form-horizontal">
+                            <div ng-include="'app/pages/priver/profile/widgets/profil.html'" ng-controller="ProfilePageCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.BUDGET' | translate }}" form="vm.budgetForm" novalidate>
+                        <form class="form-horizontal" name="vm.budgetForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/budget/budgetAssistant.html'" ng-controller="AssistantBudgetCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.COMPTES' | translate }}" form="vm.compteForm" novalidate>
+                        <form name="vm.compteForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/comptes/comptesAssistant.html'" ng-controller="AssistantComptesCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.CREDIT' | translate }}" form="vm.creditForm" novalidate>
+                        <form name="vm.creditForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/credit/creditAssistant.html'" ng-controller="AssistantCreditCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.REVENUS' | translate }}" form="vm.revenuForm" novalidate>
+                        <form class="form-horizontal" name="vm.revenuForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/revenus/revenusAssistant.html'" ng-controller="AssistantRevenusCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.DEPENSES' | translate }}" form="vm.depenseForm" novalidate>
+                        <form name="vm.depenseForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/depenses/depensesAssistant.html'" ng-controller="AssistantDepensesCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.FIN' | translate }}" form="vm.finForm" novalidate>
+                        <form name="vm.finForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/fin.html'"></div>
+                        </form>
+                    </ba-wizard-step>
+                </ba-wizard>
+              </div>
+              <div ng-switch-when="1">
+                <ba-wizard action="vm.action()">
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.DEBUT' | translate }}" name="vm.debutForm" novalidate>
+                        <div ng-include="'app/pages/priver/assistant/step/debut.html'"></div>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.BUDGET' | translate }}" form="vm.budgetForm" novalidate>
+                        <form class="form-horizontal" name="vm.budgetForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/budget/budgetAssistant.html'" ng-controller="AssistantBudgetCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.COMPTES' | translate }}" form="vm.compteForm" novalidate>
+                        <form name="vm.compteForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/comptes/comptesAssistant.html'" ng-controller="AssistantComptesCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.CREDIT' | translate }}" form="vm.creditForm" novalidate>
+                        <form name="vm.creditForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/credit/creditAssistant.html'" ng-controller="AssistantCreditCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.REVENUS' | translate }}" form="vm.revenuForm" novalidate>
+                        <form class="form-horizontal" name="vm.revenuForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/revenus/revenusAssistant.html'" ng-controller="AssistantRevenusCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.DEPENSES' | translate }}" form="vm.depenseForm" novalidate>
+                        <form name="vm.depenseForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/depenses/depensesAssistant.html'" ng-controller="AssistantDepensesCtrl"></div>
+                        </form>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.ASSISTANT.FIN' | translate }}" form="vm.finForm" novalidate>
+                        <form name="vm.finForm" novalidate>
+                            <div ng-include="'app/pages/priver/assistant/step/fin.html'"></div>
+                        </form>
+                    </ba-wizard-step>
+                </ba-wizard>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

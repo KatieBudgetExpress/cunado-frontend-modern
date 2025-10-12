@@ -1,0 +1,175 @@
+<form name="exceptionForm" novalidate
+      ng-submit="submitForm(exceptionForm.$valid, exceptionForm.$pristine, exceptionForm.$dirty, exceptionForm.$untouched)">
+  <div ng-if="ctrlLoaded" class="modal-body" style="padding: 15px 20px 30px 20px;">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback">
+          <label for="labelOperation" class="col-sm-4 control-label">{{libOperation}}</label>
+          <div class="col-sm-8">
+            <div ng-switch on="typeImage" >
+               <div ng-switch-when="glossy" style="white-space: nowrap; overflow: hidden;"><img ng-src="{{ image | glossyBusinessImg }}" style="width:24px; height:24px; vertical-align: text-bottom;" width="24" height="24">
+                 &nbsp;{{ nom | translate }}</div>
+               <span ng-switch-when="fa"><i class="chart-icon {{ image }}"></i>{{ nom | translate }}</span>
+               <span ng-switch-default><i class="chart-icon {{ image }}"></i>{{ nom | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-switch on="transfert">
+      <div ng-switch-when="1">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row clearfix has-feedback">
+              <label for="labelOperation" class="col-sm-4 control-label">{{libImpact}}</label>
+              <div class="col-sm-8">
+                <div ng-switch on="typeImage" >
+                   <div ng-switch-when="glossy" style="white-space: nowrap; overflow: hidden;"><img ng-src="{{ imageImpact | glossyBusinessImg }}" style="width:24px; height:24px; vertical-align: text-bottom;" width="24" height="24">
+                     &nbsp;{{ nomImpact | translate }}</div>
+                   <span ng-switch-when="fa"><i class="chart-icon {{ image }}"></i>{{ nomImpact | translate }}</span>
+                   <span ng-switch-default><i class="chart-icon {{ image }}"></i>{{ nomImpact | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': exceptionForm.dateException.$invalid && (exceptionForm.dateException.$touched || exceptionForm.$submitted)}">
+          <label for="inputDateException" class="col-sm-4 control-label">{{libDate}}</label>
+          <div class="col-sm-4">
+            <div class="input-group"
+                 style="margin-bottom: 0px;"
+                 moment-picker="newRegleException.dateException"
+                 format="YYYY-MM-DD"
+                 min-view="month"
+                 max-view="month"
+                 today="true"
+                 locale={{initialLocaleCode}}>
+              <input next-focus class="form-control" ng-disabled="switcherException.aucunVersement" style="padding-right: 5px;" name="dateException" ng-model="newRegleException.dateException" ng-model-options="{ updateOn: 'blur' }" required>
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="exceptionForm.dateException.$error" ng-if="exceptionForm.dateException.$invalid && (exceptionForm.dateException.$touched || exceptionForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-switch on="ajustement">
+      <div ng-switch-when="false">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row clearfix has-feedback">
+              <label for="switchException" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.OPEJRN_AUCUN' | translate }}</label>
+              <div class="col-sm-4" class="switches clearfix">
+                <switch next-focus color="primary" ng-model="switcherException.aucunVersement" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-switch on="switcherException.aucunVersement" >
+      <div ng-switch-when="false">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row clearfix has-feedback" style="margin-bottom: 0px;"
+                 ng-class="{'has-error': exceptionForm.montantException.$invalid && (exceptionForm.montantException.$touched || exceptionForm.$submitted)}">
+              <label for="inputMontant" class="col-sm-4 control-label">{{libMontant}}</label>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montantException" ng-model="newRegleException.montantException" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                  <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="exceptionForm.montantException.$error" ng-if="exceptionForm.montantException.$invalid && (exceptionForm.montantException.$touched || exceptionForm.$submitted)">
+                  <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-switch on="afficheImpact">
+          <div ng-switch-when="true">
+            <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.IMPACT' | translate }}</h3>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row clearfix has-feedback">
+                  <label for="selectCompte" class="col-sm-4 control-label">{{libImpact}}</label>
+                  <div class="col-sm-8">
+                    <select class="form-control" name="compte" title="" ng-disabled="transfert" ng-model="compteSelected" ng-options="compte as compte.nomSousPosteBudgetaireLov | translate group by compte.nomCategorie | translate for compte in compteOptions | orderBy:'nom | translate':false:localeSensitiveComparator | orderBy:'nomCategorie | translate':false:localeSensitiveComparator track by compte.id" selectpicker>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.OPEJRN_EFFECTUEE' | translate }}</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row clearfix has-feedback">
+              <label for="switchEffectue" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.OPEJRN_REEL' | translate }}</label>
+              <div class="col-sm-4" class="switches clearfix">
+                <switch next-focus color="primary" ng-model="switcherException.operationEffectuee" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-switch on="(codeCategorie == 'REV') || (codeCategorie == 'DEP')" >
+          <div ng-switch-when="true">
+            <uib-accordion>
+                <uib-accordion-group ng-init="status={isOpen: false}" is-open="status.isOpen" panel-class="bootstrap-panel accordion-panel panel-default">
+                    <uib-accordion-heading ng-if="codeCategorie == 'REV'">{{ 'ECRAN.TRANSACTION.OPEJRN_REV_REEL' | translate }} : {{ total | cuCurrency: devise }}</uib-accordion-heading>
+                    <uib-accordion-heading ng-if="codeCategorie == 'DEP'">{{ 'ECRAN.TRANSACTION.OPEJRN_DEP_REEL' | translate }} : {{ total | cuCurrency: devise }}</uib-accordion-heading>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="add-row-editable-table">
+                          <button class="btn btn-primary" ng-attr-type="button" ng-click="ajoutVentilation()">{{ 'GLOBALE.BOUTON.AJOUTER' | translate }}</button>
+                        </div>
+                        <table st-table="affRegleExceptionVentilations" st-safe-src="regleExceptionVentilations" class="table table-bordered table-hover table-condensed">
+                          <thead>
+                              <tr class="sortable" style="font-weight: bold">
+                                <th style="width:40%; text-align: left;" st-sort="trierAccent.description">{{ 'ECRAN.TRANSACTION.DESCRIPTION' | translate }}</th>
+                                <th style="width:x; text-align: right;" st-sort="montant" st-sort-default="reverse">{{ 'ECRAN.TRANSACTION.OPEJRN_MNT_REEL' | translate }}</th>
+                                <th style="width:170px"></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="regleExceptionVentilation in affRegleExceptionVentilations | filter:{idRegleException: newRegleException.id}:true track by regleExceptionVentilation.id">
+                              <td style="text-align: left;">{{ regleExceptionVentilation.description }}</td>
+                              <td class="align-right">{{ regleExceptionVentilation.montant | cuCurrency: devise }}</td>
+                              <td>
+                                 <button ng-attr-type="button" class="btn btn-primary editable-table-button btn-xs" ng-click="modifierVentilation(regleExceptionVentilation)">{{ 'GLOBALE.BOUTON.MODIFIER' | translate }}</button>
+                                 <button ng-attr-type="button" class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeVentilation(regleExceptionVentilation)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+                              </td>
+                            </tr>
+                            <tr ng-if="affTotal">
+                              <td style="text-align: right; font-weight: bold;">{{ 'ECRAN.TRANSACTION.OPEJRN_TOT_REEL' | translate }}</td>
+                              <td style="text-align: right; font-weight: bold;">{{ total | cuCurrency: devise }}</td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span style="padding-bottom:20px;"></span>
+  </div>
+  <div ng-if="ctrlLoaded" class="modal-footer">
+    <button class="btn btn-primary" ng-attr-type="button" ng-click="ouvrirOperation()" style="float: left"><i class="ion-android-create"></i>&nbsp;&nbsp;{{ 'ECRAN.TRANSACTION.OPEJRN_OPE_GLOBALE' | translate }}</button></li>
+    <button class="btn btn-primary" ng-attr-type="submit" ng-show="okButton">{{okButton}}</button>
+    <button class="btn btn-danger"  ng-attr-type="button" ng-show="deleteButton && !ajustement" ng-click="confirmClick(affSuppOpe,'warning',affSwitchOui,affSwitchNon,affAttention) && supprime()" confirm-click>{{deleteButton}}</button>
+    <button class="btn btn-default" ng-attr-type="button" ng-show="cancelButton" ng-click="cancel()">{{cancelButton}}</button>
+  </div>
+</form>

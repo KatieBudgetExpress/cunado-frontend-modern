@@ -1,0 +1,86 @@
+<!--
+ * @author S.Lizotte
+-->
+<div ba-panel ba-panel-class="banque-page">
+  <div ng-init="getBanque()">
+  <uib-accordion>
+    <div style="margin-top:10px;" ng-repeat="banque in banques">
+      <uib-accordion-group is-open="accordionArray[$index]" panel-class="bootstrap-panel accordion-panel panel-default">
+        <uib-accordion-heading>
+          <img ng-src="data:image/png;base64,{{ banque.logo }}" 
+              style="margin-top: -5px;"
+              ng-style="{ width : 25, height : 25 }"/>&nbsp; 
+              {{ banque.nomInstitution | translate }}
+          <button style="float: right;" class="btn btn-danger editable-table-button btn-xs align-right" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeBanque($index, banque)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+        </uib-accordion-heading>
+        <div class="row">
+          <div class="col-md-12">
+              <table style="width: 100%; table-layout: fixed;" st-table="affbanqueComptes" st-safe-src="banqueComptes" class="table table-bordered table-hover table-condensed">
+              <thead>
+                  <tr class="sortable" style="font-weight: bold">
+                    <th style="width:5%">{{ 'ECRAN.BANQUECOMPTE.STATUS' | translate }}</th>
+                    <th style="width:60%" st-sort="trierAccent.nomCompte" st-sort-default="true">{{ 'ECRAN.BANQUECOMPTE.NOMCOMPTE' | translate }}</th>
+                    <th style="width:15%; text-align: right;" st-sort="trierAccent.solde">{{ 'ECRAN.BANQUECOMPTE.SOLDE' | translate }}</th>
+                    <th style="width:20%; ">{{ 'ECRAN.BANQUECOMPTE.BANQUE' | translate }}</th> 
+                    <th style="width:170px; padding-left:8px;">
+                        <button class="btn btn-primary editable-table-button btn-xs" ng-click="majSoldeCompte(banque.id)"><i class='fa fa-refresh'></i></button>
+                    </th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="banqueCompte in affbanqueComptes | filter:{idBanque: banque.id}:true track by banqueCompte.id" class="editable-row">
+                  <td>
+                    <i ng-if="banqueCompte.statut" class='fa fa-thumbs-o-up'></i>
+                    <i ng-if="!banqueCompte.statut" class='fa fa-thumbs-o-down'></i>
+                  </td>
+                  <td style="word-wrap:break-word;">
+                    <span editable-text="banqueCompte.nomCompte" e-name="nomCompte" e-form="rowform" e-ng-change="onChangeForm(rowform, $data)">
+                      {{ banqueCompte.nomCompte }}
+                    </span>
+                  </td>
+                  <td align="right" style="word-wrap:break-word;">
+                        {{ banqueCompte.solde | cuCurrency: ctrl.devise}}
+                  </td>
+                  <td style="word-wrap:break-word;">
+                      {{ banqueCompte.nomSousPosteBudgetaireLov | translate}}
+                  </td>
+                  <td>           
+                    <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline" onbeforesave="enregistreBanqueCompte(banqueCompte, rowform)" onhide="onhide(rowform)" oncancel="oncancel(rowform)" shown="inserted == banqueCompte">
+                      <button ng-attr-type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                        {{ 'GLOBALE.BOUTON.ENREGISTRER' | translate }} 
+                      </button>
+                      <button ng-attr-type="button" ng-disabled="rowform.$waiting" ng-click="onCancelForm(banqueCompte,rowform)" class="btn btn-default editable-table-button btn-xs">
+                        {{ 'GLOBALE.BOUTON.ANNULER' | translate }}
+                      </button>
+                    </form>                    
+                    <div class="buttons" ng-show="!rowform.$visible">
+                      <button class="btn btn-primary editable-table-button btn-xs" ng-click="modifierBanqueCompte(banqueCompte, rowform)">{{ 'GLOBALE.BOUTON.MODIFIER' | translate }}</button>
+                      <button class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeBanqueCompte($index, banqueCompte)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>                    </div>
+
+
+
+
+<!--
+                   <div class="buttons">
+                     <button class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeBanqueCompte($index, banqueCompte)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+                  -->
+                  </div>                  
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>      
+      </uib-accordion-group>
+    </div>
+  </uib-accordion>
+  </div>
+</div>
+
+<nav mfb-menu position="br" effect="zoomin" style="margin: 40px;"
+  active-icon="ion-close-round" resting-icon="ion-plus-round"
+  toggling-method="hover" main-action="lierBanque()"
+  label="{{ 'ECRAN.BANQUE.LIERBANQUE' | translate }}">
+</nav>
+
+

@@ -1,0 +1,102 @@
+<!--
+ * @author S.Lizotte
+-->
+<div ba-panel ba-panel-class="sousposteBudgetaire-page">
+  <div ng-init="getSousPosteBudgetaire()">
+      <uib-accordion>
+        <div style="margin-top:10px;" ng-repeat="categorie in ::categories">
+          <uib-accordion-group is-open="false" panel-class="bootstrap-panel accordion-panel panel-default">
+            <uib-accordion-heading>
+              {{ ::categorie.nom | translate }}
+              <div class="pull-right btn-group btn-group-xs">
+                <button class="btn btn-default btn-xs" ng-click="$event.stopPropagation();$event.preventDefault();ajoutTransaction(categorie)" uib-tooltip="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION' | translate }}" >&nbsp;<i class="ion-android-more-vertical"></i>&nbsp;</button>
+              </div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12">
+                <uib-accordion>
+                  <div style="margin-top:10px;" ng-repeat="posteBudgetaire in ::posteBudgetaires | filter:{idCategorie: categorie.id}:true track by posteBudgetaire.id">
+                    <uib-accordion-group is-open="false" panel-class="bootstrap-panel accordion-panel panel-default">
+                      <uib-accordion-heading>
+                        <img ng-src="{{ posteBudgetaire.image | glossyBusinessImg }}" style="margin:-10px 10px 0px -10px;" width="24" height="24">
+                        <span>
+                          <div style="white-space: nowrap; width: 98%; overflow: hidden; margin: -17px 0px 0px 28px;">
+                            {{ ::posteBudgetaire.nom | translate }}
+                          </div>
+                        <span>
+                      </uib-accordion-heading>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="add-row-editable-table">
+                            <button class="btn btn-primary" ng-click="ajoutSousPoste(categorie, posteBudgetaire)">{{ ::'GLOBALE.BOUTON.AJOUTER' | translate }}</button>
+                          </div>
+                            <table style="width: 100%; table-layout: fixed;" width=100% st-table="affSousPosteBudgetaires" st-safe-src="sousPosteBudgetaires" class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr class="sortable" style="font-weight: bold">
+                                  <th style="width:5%"></th>
+                                  <th style="width:30%" st-sort="trierAccent.nom" st-sort-default="true">{{ ::'ECRAN.SOUSPOSTEBUDGETAIRE.ENTETE_NOM' | translate }}</th>
+                                  <th st-sort="trierAccent.description">{{ ::'ECRAN.SOUSPOSTEBUDGETAIRE.ENTETE_DESCRIPTION' | translate }}</th>
+                                  <th style="width:195px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="sousPosteBudgetaire in affSousPosteBudgetaires | filter:{idPosteBudgetaire: posteBudgetaire.id}:true track by sousPosteBudgetaire.id" class="editable-row">
+                                <td style="word-wrap:break-word;">
+                                  <div ng-switch on="sousPosteBudgetaire.typeImage" ng-show="rowform.$visible">
+                                     <a ng-switch-when="glossy" href="" uib-tooltip="{{ 'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaire,rowform)">
+                                       <img id="{{ 'imgPosteEdit-' + sousPosteBudgetaire.id }}" e-name="image" e-form="rowform" ng-src="{{ ::sousPosteBudgetaire.image | glossyBusinessImg }}" width="24" height="24">
+                                     </a>
+                                     <a ng-switch-default e-name="image" e-form="rowform" href="" uib-tooltip="{{ ::'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaire,rowform)">...</a>
+                                  </div>
+                                  <div ng-switch on="sousPosteBudgetaire.typeImage" ng-show="!rowform.$visible" >
+                                     <div ng-switch-when="glossy">
+                                       <img id="{{ 'imgPosteAff-' + sousPosteBudgetaire.id }}" e-name="image" e-form="rowform" ng-src="{{ ::sousPosteBudgetaire.image | glossyBusinessImg }}" width="24" height="24">
+                                     </div>
+                                     <span ng-switch-default e-name="image" e-form="rowform">&nbsp;</span>
+                                  </div>
+                                </td>
+                                <td style="word-wrap:break-word;">
+                                  <span editable-text="sousPosteBudgetaire.nomFiltered" e-name="nom" e-form="rowform" e-ng-change="onChangeForm(rowform, $data)"  onbeforesave="valideNom($data)" e-required>
+                                    {{ sousPosteBudgetaire.nom | translate }}
+                                  </span>
+                                </td>
+                                <td style="word-wrap:break-word;">
+                                  <span editable-text="sousPosteBudgetaire.description" e-name="description" e-form="rowform" e-ng-change="onChangeForm(rowform, $data)">
+                                    {{ sousPosteBudgetaire.description }}
+                                  </span>
+                                </td>
+                                <td>
+                                 <!-- blur="cancel" : Pour avoir une ligne à la fois-->
+                                 <form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline" onbeforesave="enregistreSousPoste(sousPosteBudgetaire, rowform)" onhide="onhide(rowform)" oncancel="oncancel(rowform)" shown="inserted == sousPosteBudgetaire">
+                                   <button ng-attr-type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary editable-table-button btn-xs">
+                                     {{ 'GLOBALE.BOUTON.ENREGISTRER' | translate }}
+                                   </button>
+                                   <button ng-attr-type="button" ng-disabled="rowform.$waiting" ng-click="onCancelForm(sousPosteBudgetaire,rowform)" class="btn btn-default editable-table-button btn-xs">
+                                     {{ 'GLOBALE.BOUTON.ANNULER' | translate }}
+                                   </button>
+                                 </form>
+                                 <div class="buttons" ng-show="!rowform.$visible" uib-dropdown>
+                                   <button class="btn btn-primary editable-table-button btn-xs" ng-click="modifierSousPoste(rowform)">{{ ::'GLOBALE.BOUTON.MODIFIER' | translate }}</button>
+                                   <button class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeSousPoste($index, sousPosteBudgetaire, rowform)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+                                   <button ng-attr-type="button" class="btn btn-default btn-xs" uib-dropdown-toggle>&nbsp;<i class="ion-android-more-vertical"></i>&nbsp;</button>
+                                   <ul class="dropdown-menu " uib-dropdown-menu>
+                                     <li><a href ng-click="ajoutTransaction(categorie,sousPosteBudgetaire,rowform)"><i class="ion-android-list"></i>&nbsp;&nbsp;{{ ::'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION' | translate }}</a></li>
+                                     <li><a href ng-click="modifierPoste(sousPosteBudgetaire,posteBudgetaire,rowform)"><i class="ion-pricetag"></i>&nbsp;&nbsp;{{ ::'GLOBALE.TOOLTIP.MODIFIER_POSTE' | translate }}</a></li>
+                                   </ul>
+                                </div>
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                       </div>
+                     </div>
+                    </uib-accordion-group>
+                  </div>
+                </uib-accordion>
+              </div>
+            </div>
+          </uib-accordion-group>
+        </div>
+      </uib-accordion>
+  </div>
+</div>

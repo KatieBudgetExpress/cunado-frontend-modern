@@ -1,0 +1,28 @@
+<div class="row" ng-controller="TransactionRemboursementCtrl">
+  <div class="col-md-12">
+    <div class="add-row-editable-table">
+      <button class="btn btn-primary" ng-attr-type="button" ng-click="ajoutRemboursement()">{{ 'GLOBALE.BOUTON.AJOUTER' | translate }}</button>
+    </div>
+    <table st-table="affRegleRemboursements" st-safe-src="regleRemboursements" class="table table-bordered table-hover table-condensed">
+      <thead>
+          <tr class="sortable" style="font-weight: bold">
+            <th style="width:30%; text-align: left;" st-sort="trierAccent.descriptionDe">{{ 'ECRAN.TRANSACTION.TRANSFERT_DE' | translate }}</th>
+            <th style="width:30%; text-align: left;" st-sort="trierAccent.descriptionVers">{{ 'ECRAN.TRANSACTION.TRANSFERT_VERS' | translate }}</th>
+            <th style="width:x; text-align: right;" st-sort="montant" st-sort-default="reverse">{{ 'ECRAN.TRANSACTION.TRANSFERT_MONTANT' | translate }}</th>
+            <th style="width:170px"></th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="regleRemboursement in affRegleRemboursements">
+          <td style="text-align: left;">{{ regleRemboursement.descriptionDe  | translate }}</td>
+          <td style="text-align: left;">{{ regleRemboursement.descriptionVers | translate }}</td>
+          <td class="align-right">{{ regleRemboursement.montantAff }}</td>
+          <td>
+             <button ng-attr-type="button" class="btn btn-primary editable-table-button btn-xs" ng-click="modifierRemboursement(regleRemboursement)">{{ 'GLOBALE.BOUTON.MODIFIER' | translate }}</button>
+             <button ng-attr-type="button" class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeRemboursement(regleRemboursement)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

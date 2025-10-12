@@ -1,0 +1,210 @@
+<div ng-form="transactionCptForm">
+  <div ng-if="ctrlLoaded" class="modal-body" style="padding: 15px 20px 20px 20px;">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': sousPosteBudgetaireInvalide() && (transactionCptForm.sousPosteBudgetaire.$touched || transactionCptForm.$submitted)}">
+          <label for="selectSousPosteBudgetaire" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.SOUS_POSTE_BUDG' | translate }}</label>
+          <div class="col-sm-8">
+            <div class="input-group" style="table-layout: fixed; margin-bottom: 0px;">
+              <select class="form-control" name="sousPosteBudgetaire" title="" ng-disabled="sousPosteBudgetaireInactif" ng-change="majSousPoste()" ng-model="sousPosteBudgetaireSelected" ng-options="sousPoste as sousPoste.nom | translate group by sousPoste.nomPosteBudgetaire | translate for sousPoste in listeLovSousPosteBudgetaire | orderBy:'nom | translate':false:localeSensitiveComparator | orderBy:'nomPosteBudgetaire | translate':false:localeSensitiveComparator track by sousPoste.id" selectpicker ng-required="true" required></select>
+              <span class="input-group-btn" style="width: 22%;">
+                <button class="btn btn-primary" style="width: 100%;" ng-disabled="sousPosteBudgetaireInactif" ng-attr-type="button" ng-click="ajoutSousPoste()">{{ 'GLOBALE.BOUTON.NOUVEAU' | translate }}</button>
+              </span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionCptForm.sousPosteBudgetaire.$error" ng-if="sousPosteBudgetaireInvalide() && (transactionCptForm.sousPosteBudgetaire.$touched || transactionCptForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div ng-switch on="typeImageSelect" ng-if="imageSelect">
+           <a ng-switch-when="glossy" href="" uib-tooltip="{{ 'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaireSelected)">
+             <img id="imgSousPosteTrs" name="imgSousPosteTrs" ng-src="{{ imageSelect | glossyBusinessImg }}" style="width:24px; height:24px; margin-top: 5px; margin-left: -5px;" width="24" height="24">
+           </a>
+           <a ng-switch-default name="image" href="" uib-tooltip="{{ 'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaireSelected)">...</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback">
+          <label for="textareaDescription" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DESCRIPTION' | translate }}</label>
+          <div class="col-sm-8">
+            <textarea  class="form-control" name="description" ng-model="regle.description"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-switch on="categorie.code == 'CPT'" >
+      <div class="row" ng-switch-when="true">
+        <div class="col-md-8">
+          <div class="form-group row clearfix has-feedback">
+            <label for="switchComptePrincipal" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.COMPTE_PRINCIPAL' | translate }}</label>
+            <div class="col-sm-4" class="switches clearfix" ng-switch on="isComptePrincipalDisabled">
+              <div ng-switch-when="false">
+                <switch next-focus color="primary" ng-click="switchComptePrincipalChange(switcherRegle.comptePrincipal, $event)" name="comptePrincipal" ng-model="switcherRegle.comptePrincipal" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+              <div ng-switch-when="true">
+                <switch next-focus disabled="true" color="primary" name="comptePrincipal" ng-model="switcherRegle.comptePrincipal" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row" ng-if="creation || assistant">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback">
+          <label for="inputDateDebut" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_UNIQUE' | translate }}</label>
+          <div class="col-sm-4"
+               ng-class="{'has-error': transactionCptForm.dateDebut.$invalid && (transactionCptForm.dateDebut.$touched || transactionCptForm.$submitted)}">
+            <div class="input-group"
+                 style="margin-bottom: 0px;"
+                 moment-picker="regle.dateDebut"
+                 start-date="dateDepartPicker"
+                 format="YYYY-MM-DD"
+                 min-view="month"
+                 max-view="month"
+                 today="true"
+                 locale={{initialLocaleCode}}>
+              <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut" ng-model="regle.dateDebut" ng-model-options="{ updateOn: 'blur' }" required>
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionCptForm.dateDebut.$error" ng-if="transactionCptForm.dateDebut.$invalid && (transactionCptForm.dateDebut.$touched || transactionCptForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              <p ng-message="erreurDateBudget">{{ 'GLOBALE.AIDE.DATE_DEBUT_BUDGET' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': transactionCptForm.montant.$invalid && (transactionCptForm.montant.$touched || transactionCptForm.$submitted)}">
+          <label for="inputMontant" class="col-sm-4 control-label" ng-if="creation || assistant">{{ 'ECRAN.TRANSACTION.SOLDE' | translate }}</label>
+          <label for="inputMontant" class="col-sm-4 control-label" ng-if="!creation && !assistant">{{ 'ECRAN.TRANSACTION.SOLDE_JOUR' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group" style="margin-bottom: 0px;">
+              <input next-focus ng-attr-type="number" ng-disabled="!creation && !assistant" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montant" ng-model="regle.montant" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+              <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionCptForm.montant.$error" ng-if="transactionCptForm.montant.$invalid && (transactionCptForm.montant.$touched || transactionCptForm.$submitted)">
+              <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.AUTRE_INFOS' | translate }}</h3>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': transactionCptForm.taux.$invalid && (transactionCptForm.taux.$touched || transactionCptForm.$submitted)}">
+          <label for="inputTaux" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.TAUX' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group" style="margin-bottom: 0px;">
+              <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="taux" ng-model="sousPosteBudgetaireRegle.taux" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+              <span class="input-group-addon addon-right input-group-addon-success">%</span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionCptForm.taux.$error" ng-if="transactionCptForm.taux.$invalid && (transactionCptForm.taux.$touched || transactionCptForm.$submitted)">
+              <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" ng-if="categorie.code !== 'EPA'">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': transactionCptForm.limite.$invalid && (transactionCptForm.limite.$touched || transactionCptForm.$submitted)}">
+          <label for="inputLimite" class="col-sm-2 control-label">{{ 'ECRAN.TRANSACTION.LIMITE' | translate }}</label>
+          <div class="col-sm-8">
+            <div class="input-group" style="margin-bottom: 0px;">
+              <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="limite" ng-model="sousPosteBudgetaireRegle.limiteEmprunt" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+              <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionCptForm.limiteEmprunt.$error" ng-if="transactionCptForm.limiteEmprunt.$invalid && (transactionCptForm.limiteEmprunt.$touched || transactionCptForm.$submitted)">
+              <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0px 15px 20px 10px;" ng-if="ctrlLoaded && !creation && !assistant">
+    <uib-accordion>
+      <uib-accordion-group is-open="model.ajtSldOuvert" panel-class="bootstrap-panel accordion-panel panel-default">
+        <uib-accordion-heading>
+          {{ 'ECRAN.TRANSACTION.AJUSTER_SOLDE' | translate }}
+        </uib-accordion-heading>
+        <div class="row">
+          <div class="col-md-12">
+            <div ng-include="'app/pages/priver/transaction/ajustement.html'"></div>
+          </div>
+        </div>
+      </uib-accordion-group>
+
+      <div ng-switch on="categorie.code == 'CRE' || categorie.code == 'EPA' || categorie.code == 'PRE'" style="padding-top: 7px;">
+        <div ng-switch-when="true">
+          <uib-accordion-group is-open="model.remboursementOuvert" panel-class="bootstrap-panel accordion-panel panel-default">
+            <uib-accordion-heading>
+              {{transfertAutre}}
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12">
+                <div ng-include="'app/pages/priver/transaction/remboursement.html'"></div>
+              </div>
+            </div>
+          </uib-accordion-group>
+          <div ng-switch on="categorie.code == 'CRE' || categorie.code == 'EPA'" style="padding-top: 7px;">
+            <div ng-switch-when="true">
+              <uib-accordion-group is-open="model.transfertOuvert" panel-class="bootstrap-panel accordion-panel panel-default">
+                <uib-accordion-heading>
+                  {{transfertCompte}}
+                </uib-accordion-heading>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div ng-include="'app/pages/priver/transaction/transfert.html'"></div>
+                  </div>
+                </div>
+              </uib-accordion-group>
+            </div>
+          </div>
+        </div>
+
+        <div ng-switch-when="false">
+          <uib-accordion-group is-open="model.transfertOuvert" panel-class="bootstrap-panel accordion-panel panel-default">
+            <uib-accordion-heading>
+              {{transfertCompte}}
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12">
+                <div ng-include="'app/pages/priver/transaction/transfert.html'"></div>
+              </div>
+            </div>
+          </uib-accordion-group>
+        </div>
+      </div>
+    </uib-accordion>
+  </div>
+
+  <div ng-if="ctrlLoaded" class="modal-footer">
+    <div ng-if="enregistrer" >
+      <button class="btn btn-primary" ng-attr-type="button" ng-click="submitForm(transactionCptForm.$valid, transactionCptForm.$pristine, transactionCptForm.$dirty, transactionCptForm.$untouched)" ng-show="boutonEnregistrer">{{boutonEnregistrer}}</button>
+      <button class="btn btn-danger"  ng-attr-type="button" ng-if="!assistant" ng-click="confirmClick(ccSujet,'warning',ccBtnOui,ccBtnNon,ccMessage) && supprimer()" ng-show="boutonSupprimer" confirm-click>{{boutonSupprimer}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-click="annuler()" ng-show="boutonAnnuler">{{boutonAnnuler}}</button>
+    <div>
+    <div ng-if="!enregistrer">
+      <button class="btn btn-primary" ng-attr-type="button" ng-click="suivant(transactionCptForm.$valid)" ng-show="boutonSuivant">{{boutonSuivant}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-click="annuler()" ng-show="boutonAnnuler">{{boutonAnnuler}}</button>
+    <div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="row" align="right" style="padding: 5px 0px 20px 0px;">
+    <div class="col-md-12">
+        <div id="reportrange"
+            style="border-radius: 4px; box-shadow: 0px 1px 2px #C3C6C7; background: #fff; cursor: pointer; margin-right: 15px; padding: 5px 10px; border: 1px solid #ccc; width: 220px">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>  
+    </div>
+</div>
+  <!--
+  <dashboard-pie-chart></dashboard-pie-chart>
+
+  "PARAM" : {
+    "CATEGORIE" : {
+      "REVENU": "Revenu",
+      "DEPENSE": "Dépense",
+      "COMPTE": "Compte",
+      "EPARGNE": "Épargne",
+      "PRET": "Prêt",
+      "AUTRES": "Autres",
+      "CREDIT": "Crédit"
+  -->
+  <div ng-if="dashLoaded">
+  <div class="row pie-charts">
+      <div class="pie-chart-item-container" ng-repeat="chart in charts">
+          <div ba-panel>
+              <div class="pie-chart-item">
+                  <div class="description">
+                      <div>{{ ::chart.description }}</div>
+                      <div class="description-stats">{{chart.stats | cuCurrency: ctrl.devise}}</div>
+                  </div>
+                  <div ng-switch on="chart.typeIcon">
+                      <div ng-switch-when="glossy"><i class="chart-icon"><img
+                              ng-src="{{ ::chart.icon | glossyBusinessImg }}"></i></div>
+                      <span ng-switch-when="fa"><i class="chart-icon {{ ::chart.icon }}"></i></span>
+                      <span ng-switch-default><i class="chart-icon {{ ::chart.icon }}"></i></span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12"
+           ba-panel
+           ba-panel-title="{{ 'ECRAN.TABLEAUBORD.SECTION_DEPENSE' | translate }}"
+           ba-panel-class="medium-panel traffic-panel">
+          <depense-chart></depense-chart>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12"
+           ba-panel
+           ba-panel-title="{{ 'ECRAN.TABLEAUBORD.SECTION_REVENU' | translate }}"
+           ba-panel-class="medium-panel traffic-panel">
+          <revenu-chart></revenu-chart>
+      </div>
+  </div>
+</div>

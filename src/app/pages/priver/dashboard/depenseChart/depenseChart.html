@@ -1,0 +1,29 @@
+<div class="channels-block" ng-class="{'transparent': transparent}">
+  <div class="chart-bg"></div>
+  <div class="traffic-chart" id="depenseChart">
+    <div class="canvas-holder">
+      <canvas id="chartdepense-area" width="300" height="300"></canvas>
+      <div class="traffic-text">
+        {{totalDep | cuCurrency: ctrl.devise}}
+        <span>{{ 'ECRAN.TABLEAUBORD.DEPENSES_TOTALES' | translate }}</span>
+      </div>
+    </div>
+    <div class="traffic-legend"></div>
+  </div>
+
+  <div class="channels-info">
+      <div>
+          <div class="channels-info-item" ng-repeat="label in doughnutDataDep.labels"
+               ng-init="i = $index; data = doughnutDataDep.datasets[0]">
+              <div class="legend-color" style="background-color: {{::data.backgroundColor[i]}}"></div>
+              <p style="word-wrap:break-word;">{{::label}}<span class="channel-number">{{data.percentage[i]}}%</span></p>
+              <div class="progress progress-sm channel-progress">
+                  <div class="progress-bar" role="progressbar"
+                       aria-valuenow="{{data.percentage[i]}}" aria-valuemin="0" aria-valuemax="100"
+                       style="width: {{data.percentage[i]}}%">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

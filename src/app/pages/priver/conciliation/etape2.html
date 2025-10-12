@@ -1,0 +1,23 @@
+<div class="flex-row">
+    <!-- colonne de gauche -->
+    <div class="flex-100" style="min-height: 150px;">
+        <div class="p-8 m-v-8" style="font-size: 20px; color: #666666">
+            {{'ECRAN.CONCILIATION.TITRE_SECTION_2' | translate}}
+        </div>
+        <div ng-if="vm.tableData && vm.typeLibUsed !== 'csv'">
+            <div ng-include="'app/pages/priver/conciliation/etape2/ofx-tab.html'"></div>
+        </div>
+        <div ng-if="vm.tableData && vm.typeLibUsed === 'csv'">
+            <div ng-include="'app/pages/priver/conciliation/etape2/csv-tab.html'"></div>
+        </div>
+    </div>
+    <!-- colonne de centre -->
+    <div class="flex-divider m-v-24 m-h-40">
+        <i class="fa fa-money icon-centre-on-separator" style="padding: 11px 10px;"></i>
+    </div>
+
+    <!-- colonne de droite -->
+    <div class="flex-100" style="min-height: 150px;">
+      <div ng-include="'app/pages/priver/conciliation/etape2/depensesRevenus.html'"></div>
+    </div>
+</div>

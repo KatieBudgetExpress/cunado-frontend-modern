@@ -1,0 +1,104 @@
+<div ng-form="vm.importFile" class="form-horizontal">
+    <div class="col-sm-3">
+        <div ba-panel ba-panel-class="with-scroll">
+            <div class="flex flex-column">
+                <h3 class="with-line-top">{{ 'ECRAN.CONCILIATION.OPTION_IMPORTATION' | translate }}</h3>
+                <div class="flex">
+                   
+                    <div class="flex-column flex-100" style="margin-left: -15px;">
+                        <div class="col-md-4">
+                            <label class="radio-inline custom-radio nowrap">
+                                <input ng-attr-type="radio" ng-model="vm.typeConciliation" ng-value="1" ng-click="vm.radioChange();">
+                                <span>{{ 'ECRAN.CONCILIATION.PAR_FICHIER' | translate }}</span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="radio-inline custom-radio nowrap">
+                                <input ng-attr-type="radio" ng-model="vm.typeConciliation" ng-value="2" ng-click="vm.radioChange();">
+                                <span>{{ 'ECRAN.CONCILIATION.PAR_LIEN' | translate }}</span>
+                            </label>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9" ng-switch on="vm.typeConciliation">
+        <!--
+            TYPE FICHIER
+        -->
+        <div ng-switch-when="1">
+            <div ba-panel ba-panel-class="with-scroll">        
+                <p data-ng-bind-html="'ECRAN.CONCILIATION.AIDE' | translate | htmlSafe"></p>
+                <center>
+                    {{::'ECRAN.CONCILIATION.DROP_FILE' | translate }}
+                    <div ng-if="!vm.file"
+                            ng-model="vm.file" required
+                            ngf-change="vm.upload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                            class="drop-box"
+                            ngf-select
+                            ngf-drop
+                            ngf-drag-over-class="'dragover'"
+                            accept=".ofx,.qfx,.csv"
+                            ngf-pattern="'.ofx,.qfx,.csv'"
+                            data-ng-bind-html="'ECRAN.CONCILIATION.DROP_FILE_DSC' | translate | htmlSafe">
+                    </div>
+                    <div ngf-no-file-drop>
+                        {{::'ECRAN.CONCILIATION.DROP_FILE_COMPATIBILITY' | translate }}
+                    </div>
+            
+                    <div ng-if="vm.file">
+                        <div style="padding: 8px;">{{::'ECRAN.CONCILIATION.NOM_FICHIER' | translate
+                            }}{{vm.file.name}}
+                        </div>
+                        <button class="btn btn-primary no-animate"
+                                ng-click="vm.file = null; vm.tableData = null;">
+                            {{::'ECRAN.CONCILIATION.RESTART_IMPORT' | translate }}
+                        </button>
+                    </div>
+                </center>                
+                <p data-ng-bind-html="'ECRAN.CONCILIATION.TEXT_FIN_IMPORTATION' | translate | htmlSafe"></p>
+            </div>
+        </div>
+        <!--
+            TYPE LIEN BANCAIRE
+        -->
+        <div ng-switch-when="2">
+            <div ba-panel ba-panel-class="with-scroll">
+                <p data-ng-bind-html="'ECRAN.CONCILIATION.AIDELIEN' | translate | htmlSafe"></p>
+                <div class="row" style="margin-left: 0px;">
+                    <div class="col-md-6">
+                        {{::'ECRAN.CONCILIATION.CHOISIR_COMPTE_BANQUE' | translate }}
+                        <div class="form-group row clearfix has-feedback"
+                            ng-class="{'has-error': vm.importFile.lienBancaire.$invalid && (vm.importFile.lienBancaire.$touched || vm.importFile.$submitted)}">
+                            <select class="form-control" 
+                                    name="lienBancaire" 
+                                    title="" 
+                                    ng-model="vm.lienBancaireSelected"
+                                    ng-change="vm.changeCompte()" 
+                                    ng-options="lienBancaire as lienBancaire.nomCompte | translate group by lienBancaire.nomInstitution | translate for lienBancaire in lienBancaires | orderBy:'nomCompte | translate':false:localeSensitiveComparator | orderBy:'nomInstitution | translate':false:localeSensitiveComparator track by lienBancaire.idCompte" 
+                                    selectpicker required></select>         
+                            <span class="help-block error-block basic-block" ng-messages="vm.importFile.lienBancaire.$error"
+                                ng-if="vm.importFile.lienBancaire.$invalid && (vm.importFile.lienBancaire.$touched || vm.importFile.$submitted)">
+                            <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                            </span>
+                        </div>                         
+                        {{::'ECRAN.CONCILIATION.CHOISIR_INTER_DATE' | translate }}
+                        <div id="reportrange_analyse"
+                             style="border-radius: 4px; box-shadow: 0px 1px 2px #C3C6C7; background: #fff; cursor: pointer; margin-left: -15px; padding: 5px 10px; border: 1px solid #ccc; width: 220px">
+                          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                          <span></span> <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+                <span><p data-ng-bind-html="'ECRAN.CONCILIATION.TEXT_FIN_IMPORTATION' | translate | htmlSafe"></p></span>
+            </div>
+        </div>
+    </div>    
+</div>        
+
+        
+
+
+

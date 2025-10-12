@@ -1,0 +1,111 @@
+<div ba-panel ba-panel-class="form-horizontal">
+  <div ng-init="getReglePosteBudgetaire()">
+    <div class="widgets">
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="col-lg-6 col-md-12">
+          <div class="form-group row clearfix">
+            <label for="switchdefaut" class="col-sm-4 control-label">{{ 'ECRAN.OPERATION.PAR_POSTE' | translate }}</label>
+            <div class="col-sm-8" class="switches clearfix">
+              <switch color="primary" name="switchPoste" ng-model="switcherOperation.poste" ng-click="switchPosteChange(switcherOperation.poste)" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-switch on="affPoste" >
+        <div ng-switch-when="true">
+          <div ng-switch on="switcherOperation.poste" >
+            <div ng-switch-when="false">
+              <div class="row" style="margin-bottom: 15px;">
+                <div class="col-lg-8 col-md-12">
+                    <div class="horizontal-scroll">
+                      <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                        <thead>
+                            <tr style="font-size: 13px;">
+                              <th style="width:5%; font-weight: bold"></th>
+                              <th style="width:29%; font-weight: bold">{{ 'ECRAN.OPERATION.ENTETE_SOUSPOSTE' | translate }}</th>
+                              <th style="width:40%; font-weight: bold">{{ 'ECRAN.OPERATION.ENTETE_DESCRIPTION' | translate }}</th>
+                              <th style="width:14%; font-weight: bold" ng-if="categorie.id === 1 || categorie.id === 2">{{ 'ECRAN.OPERATION.ENTETE_FREQUENCE' | translate }}</th>
+                              <th style="width:14%; font-weight: bold" ng-if="categorie.id !== 1 && categorie.id !== 2"></th>
+                              <th style="width:12%; font-weight: bold; text-align: right; padding-right: 7px;" ng-if="categorie.id === 1 || categorie.id === 2">{{ 'ECRAN.OPERATION.ENTETE_MONTANT' | translate }}</th>
+                              <th style="width:12%; font-weight: bold; text-align: right; padding-right: 7px;" ng-if="categorie.id !== 1 && categorie.id !== 2">{{ 'ECRAN.OPERATION.ENTETE_SOLDE' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-bottom: 15px solid white;" ng-repeat="item in regleSousPosteBudgetaireGroups | orderBy:'nomSousPosteBudgetaire | translate':false:localeSensitiveComparator">
+                          <tr style="font-weight: 500; background-color: #E5E5E5;">
+                            <td style="width:5%"><img ng-src="{{::(item.image | glossyBusinessImg )}}" width="20" height="20"></td>
+                            <td style="width:29%" ng-class="nowrap">{{item.nomSousPosteBudgetaire | translate}}</td>
+                            <td style="width:40%" ng-class="nowrap"></td>
+                            <td style="width:14%" ng-class="nowrap"></td>
+                            <td style="width:12%" ng-class="nowrap"></td>
+                            <td></td>
+                          </tr>
+                          <tr ng-click="modifierSousPoste(detail)" ng-switch on="detail.comptePrincipal" ng-repeat="detail in regleSousPosteBudgetaires | filter:{idSousPosteBudgetaire: item.idSousPosteBudgetaire}:true | orderBy:['-comptePrincipal','!description']:false">
+                            <td style="width:5%"></td>
+                            <td style="width:29%" ng-class="nowrap" ng-switch-when='1'><button class="status-button btn btn-xs btn-info">{{ 'GLOBALE.LOV.PRINCIPAL' | translate }}</button></td>
+                            <td style="width:29%" ng-class="nowrap" ng-switch-when='0'></td>
+                            <td style="width:40%; word-wrap:break-word;" ng-class="nowrap">{{detail.description | translate}}</td>
+                            <td style="width:14%" ng-class="nowrap" ng-if="detail.idCategorie === 1 || detail.idCategorie === 2">{{detail.vaePeriodicite | translate}}</td>
+                            <td style="width:14%" ng-class="nowrap" ng-if="detail.idCategorie !== 1 && detail.idCategorie !== 2"></td>
+                            <td align="right" style="width:12%" ng-class="nowrap">{{detail.montantFormat | cuCurrency: ctrl.devise}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div ng-switch-when="true">
+              <div style="" ng-repeat="poste in reglePosteBudgetaires | orderBy:'nomPosteBudgetaire | translate':false:localeSensitiveComparator">
+                <div class="row" style="margin-bottom: 15px;">
+                  <div class="col-lg-8 col-md-12">
+                      <h4 class="with-line-top">{{poste.nomPosteBudgetaire | translate}}</h4>
+                      <div class="horizontal-scroll">
+                        <table style="width: 100%; table-layout: fixed;" class="table table-hover" >
+                          <thead>
+                              <tr style="font-size: 13px;">
+                                <th style="width:5%; font-weight: bold"></th>
+                                <th style="width:29%; font-weight: bold">{{ 'ECRAN.OPERATION.ENTETE_SOUSPOSTE' | translate }}</th>
+                                <th style="width:40%; font-weight: bold">{{ 'ECRAN.OPERATION.ENTETE_DESCRIPTION' | translate }}</th>
+                                <th style="width:14%; font-weight: bold" ng-if="poste.idCategorie === 1 || poste.idCategorie === 2">{{ 'ECRAN.OPERATION.ENTETE_FREQUENCE' | translate }}</th>
+                                <th style="width:14%; font-weight: bold" ng-if="poste.idCategorie !== 1 && poste.idCategorie !== 2"></th>
+                                <th style="width:12%; font-weight: bold; text-align: right; padding-right: 7px;" ng-if="poste.idCategorie === 1 || poste.idCategorie === 2">{{ 'ECRAN.OPERATION.ENTETE_MONTANT' | translate }}</th>
+                                <th style="width:12%; font-weight: bold; text-align: right; padding-right: 7px;" ng-if="poste.idCategorie !== 1 && poste.idCategorie !== 2">{{ 'ECRAN.OPERATION.ENTETE_SOLDE' | translate }}</th>
+                              </tr>
+                          </thead>
+                          <tbody style="border-bottom: 15px solid white;" ng-repeat="item in regleSousPosteBudgetaireGroups | filter:{idPosteBudgetaire: poste.idPosteBudgetaire}:true | orderBy:'nomSousPosteBudgetaire | translate':false:localeSensitiveComparator">
+                            <tr style="font-weight: 500; background-color: #E5E5E5;">
+                              <td style="width:5%"><img ng-src="{{::(item.image | glossyBusinessImg )}}" width="20" height="20"></td>
+                              <td style="width:29%" ng-class="nowrap">{{item.nomSousPosteBudgetaire | translate}}</td>
+                              <td style="width:40%" ng-class="nowrap"></td>
+                              <td style="width:14%" ng-class="nowrap"></td>
+                              <td style="width:12%" ng-class="nowrap"></td>
+                              <td></td>
+                            </tr>
+                            <tr ng-click="modifierSousPoste(detail)" ng-switch on="detail.comptePrincipal" ng-repeat="detail in regleSousPosteBudgetaires | filter:{idSousPosteBudgetaire: item.idSousPosteBudgetaire}:true | orderBy:['-comptePrincipal','!description']:false">
+                              <td style="width:5%"></td>
+                              <td style="width:29%" ng-class="nowrap" ng-switch-when='1'><button class="status-button btn btn-xs btn-info">{{ 'GLOBALE.LOV.PRINCIPAL' | translate }}</button></td>
+                              <td style="width:29%" ng-class="nowrap" ng-switch-when='0'></td>
+                              <td style="width:40%; word-wrap:break-word;" ng-class="nowrap">{{detail.description | translate}}</td>
+                              <td style="width:14%" ng-class="nowrap" ng-if="detail.idCategorie === 1 || detail.idCategorie === 2">{{detail.vaePeriodicite | translate}}</td>
+                              <td style="width:14%" ng-class="nowrap" ng-if="detail.idCategorie !== 1 && detail.idCategorie !== 2"></td>
+                              <td align="right" style="width:12%" ng-class="nowrap">{{detail.montantFormat | cuCurrency: ctrl.devise}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav mfb-menu position="br" effect="zoomin" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION' | translate }}"
+     active-icon="ion-plus-round" resting-icon="ion-plus-round"
+     main-action="ajoutTransaction()"
+     toggling-method="hover" style="margin: 40px;">
+</nav>

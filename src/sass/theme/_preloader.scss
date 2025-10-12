@@ -1,0 +1,64 @@
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+  }
+  100% {
+    transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+  }
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg); /* Firefox 16+*/
+  }
+  100% {
+    -moz-transform: rotate(360deg); /* Firefox 16+*/
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+  }
+  100% {
+    transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+  }
+}
+
+@-webkit-keyframes fadeinout {
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinout {
+    50% {
+        opacity: 1;
+    }
+}
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+//  background: url($images-root + 'blur-bg.jpg');
+  background: url($images-root + 'budgetExpress-bg.jpg');
+//  background: #000000;
+  background: #191970;
+  backface-visibility: hidden;
+  & > div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 247px;
+    height: 64px;
+    margin: -45px 0 0 -120px;
+    background-image: url($images-root + 'be_preloader.png');
+    background-repeat: no-repeat;
+    animation: fadeinout 3s linear forwards infinite;
+    opacity: 0;
+    background-color: #191970;
+  }
+}

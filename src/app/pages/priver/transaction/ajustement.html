@@ -1,0 +1,13 @@
+<div class="row" ng-controller="TransactionAjustementCtrl">
+  <div class="col-md-12">
+    <div class="btn-group btn-group-tag" ng-repeat="item in regleAjustements | orderBy:'dateDebut':true">
+      <button ng-attr-type="button" class="btn btn-primary btn-tag-gauche" ng-click="modifierAjustement(item)" >{{item.dateDebut}}&nbsp;({{item.montantFormat | cuCurrency: devise }})</button>
+      <button ng-attr-type="button" class="btn btn-primary btn-tag-droite" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimerAjustement(item)" confirm-click>
+        <i class="ion-android-close-tag"></i>
+      </button>
+    </div>
+    <button ng-attr-type="button" class="btn btn-default btn-icon-tag" ng-click="creerAjustement()" >
+      <i class="ion-android-add"></i>
+    </button>
+  </div>
+</div>

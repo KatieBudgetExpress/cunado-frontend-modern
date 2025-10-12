@@ -1,0 +1,25 @@
+<ba-sidebar ng-if="!$activeLogin"></ba-sidebar>
+<page-top ng-if="!$activeLogin"></page-top>
+
+<div class="al-main">
+    <div class="al-content">
+        <div ng-show="$activeLoadingPage" class="loader-content">
+          <div class="loader"></div>
+        </div>
+        <content-top></content-top>
+        <div ui-view="content" autoscroll="true" autoscroll-body-top></div>
+    </div>
+</div>
+
+<footer class="al-footer clearfix" ng-if="!$activeLogin">
+    <div class="al-footer-main clearfix">
+        <div class="al-copy"><li style="list-style-type: none;" ng-click="ctrl.openSitePrincipal()">Budget Express</li></div>
+        <ul class="al-share clearfix">
+            <li ng-click="ctrl.openSiteFacebook()"><i class="socicon socicon-facebook"></i></li>
+<!--            <li ng-click="ctrl.openSiteTwitter()"><i class="socicon socicon-twitter"></i></li>--> 
+<!--            <li ng-click="ctrl.openSiteGoogle()"><i class="socicon socicon-google"></i></li>-->
+        </ul>
+    </div>
+</footer>
+
+<back-top></back-top>

@@ -1,0 +1,1868 @@
+<div class="row" style="padding: 5px 0px 15px 0px;">
+    <div class="col-sm-3">
+        <div id="reportrange_analyse"
+             style="border-radius: 4px; box-shadow: 0px 1px 2px #C3C6C7; background: #fff; cursor: pointer; margin-right: 15px; padding: 5px 10px; border: 1px solid #ccc; width: 220px">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <div ba-panel ba-panel-class="with-scroll">
+
+            <i class='fa fa-bar-chart' style="margin-top: 12px;"></i>
+            <button class="btn btn-primary" ng-click="analyse(rapportActif)" style="padding: 3px 3px; float: right;">{{
+                'GLOBALE.BOUTON.ANALYSER' | translate }}
+            </button>
+
+            <h3 class="with-line" style="padding-top: 5px; margin-bottom: 4px;"></h3>
+
+            <div class="social-profiles row clearfix" style="margin-bottom: 3px; margin-right: -3px;">
+                <div ng-repeat="rapport in rapports">
+
+                    <a class="sn-link" style="margin-bottom: 2px;" href ng-click="selectionneRapport(rapport.id)"
+                       ng-if="!rapport.actif">
+                        <span style="line-height: 15px;">{{ rapport.nom }}</span>
+                    </a>
+                    <a class="sn-link connected" style="margin-bottom: 2px;" href
+                       ng-click="selectionneRapport(rapport.id)" ng-if="rapport.actif">
+                        <span style="line-height: 15px;">{{ rapport.nom }}</span>
+                    </a>
+                </div>
+            </div>
+
+            <div ng-switch on="rapportActif">
+                <!--
+                  RAPPORT DÉTAILLÉ PAR OPÉRATION
+                -->
+                <div ng-switch-when="0">
+                    <i class='ion-calculator'></i>
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchrevenu" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.REVENU' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.revenu"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.revenu)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchdepense" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.DEPENSE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.depense"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.depense)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchcompte" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.COMPTE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.compte"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.compte)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchcredit" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.CREDIT' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.credit"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.credit)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchepargne" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.EPARGNE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.epargne"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.epargne)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchpret" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.PRET' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.pret"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.pret)"></switch>
+                        </div>
+                    </div>
+
+                    <i class='fa fa-files-o'></i>
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="form-group row clearfix">
+                        <label for="switchcomparatif" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.COMPARATIF' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.comparatif"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.comparatif)"></switch>
+                        </div>
+                    </div>
+
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="row">
+                        <div class="col-sm-12" style="padding-bottom: 10px;">
+                            <select class="form-control" name="compte" title="" ng-model="compteSelected"
+                                    ng-change="compteChange(compteSelected)"
+                                    data-ng-options="compte as compte.nomSousPosteBudgetaireLov | translate group by compte.nomCategorie | translate for compte in compteOptions | orderBy:'nomSousPosteBudgetaireLov | translate':false:ctrl.localeSensitiveComparator | orderBy:'nomCategorie | translate':false:ctrl.localeSensitiveComparator track by compte.id"
+                                    selectpicker></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row clearfix">
+                        <label for="switchconciliation" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.CONCILIATION' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.conciliation"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.conciliation)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix">
+                        <label for="switchposte" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.POSTE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.poste"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.poste)"></switch>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                  RAPPORT SOMMAIRE PAR OPÉRATION
+                -->
+                <div ng-switch-when="1">
+                    <i class='ion-calculator'></i>
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchrevenu" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.REVENU' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.revenu"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.revenu)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchdepense" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.DEPENSE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.depense"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.depense)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchcompte" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.COMPTE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.compte"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.compte)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchcredit" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.CREDIT' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.credit"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.credit)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchepargne" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.EPARGNE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.epargne"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.epargne)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix" style="margin-bottom: 10px;">
+                        <label for="switchpret" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.PRET' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.pret"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.pret)"></switch>
+                        </div>
+                    </div>
+                    <i class='fa fa-files-o'></i>
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="form-group row clearfix">
+                        <label for="switchcomparatif" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.COMPARATIF' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.comparatif"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.comparatif)"></switch>
+                        </div>
+                    </div>
+
+                    <h3 class="with-line" style="padding-top: 5px;"></h3>
+
+                    <div class="row">
+                        <div class="col-sm-12" style="padding-bottom: 10px;">
+                            <select class="form-control" name="compte" title="" ng-model="compteSelected"
+                                    ng-change="compteChange(compteSelected)"
+                                    data-ng-options="compte as compte.nomSousPosteBudgetaireLov | translate group by compte.nomCategorie | translate for compte in compteOptions | orderBy:'nomSousPosteBudgetaireLov | translate':false:ctrl.localeSensitiveComparator | orderBy:'nomCategorie | translate':false:ctrl.localeSensitiveComparator track by compte.id"
+                                    selectpicker></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row clearfix">
+                        <label for="switchposte" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.POSTE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.poste"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.poste)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix">
+                        <label for="switchsousposte" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.SOUSPOSTE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.sousPoste"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.sousPoste)"></switch>
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix">
+                        <label for="switchgraphique" style="font-size: 14px; margin-top: 5px;"
+                               class="col-sm-6 control-label">{{ 'ECRAN.ANALYSE.GRAPHIQUE' | translate }}</label>
+                        <div class="col-sm-6" class="switches clearfix">
+                            <switch color="primary" ng-model="switcherValues.graphique"
+                                    checktext="<i class='fa fa-thumbs-o-up'></i>"
+                                    unchecktext="<i class='fa fa-thumbs-o-down'></i>"
+                                    ng-click="switcherValuesChange(switcherValues.graphique)"></switch>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                  RAPPORT BILAN FINANCIER
+                -->
+                <div ng-switch-when="2">
+
+                </div>
+
+                <!--
+                  FLUX DE TRÉSORERIE
+                -->
+                <div ng-switch-when="3">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div ng-switch on="estAnalyser">
+        <div ng-switch-when=true ng-if="estPret">
+            <div class="col-sm-9">
+                <div ba-panel ba-panel-class="with-scroll">
+
+                    <div class="row" ng-if="!boutonActionInactif">
+                        <div style="margin-right: 15px;float: right;">
+                          <a href="" ng-click="actionImprimer()">
+                            <i class="fa fa-print fa-2x" aria-hidden="true" title="{{'ECRAN.ANALYSE.IMPRESSION' | translate }}"></i>
+                          </a>
+                        </div>
+<!--
+                        <div class="btn-group" style="margin-right: 15px;float: right;" uib-dropdown
+                             dropdown-append-to-body>
+                            <button ng-attr-type="button" ng-disabled="boutonActionInactif" class="btn btn-default"
+                                    uib-dropdown-toggle>
+                                Action <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu>
+                                <li><a href="" ng-click="actionImprimer()">{{'ECRAN.ANALYSE.IMPRESSION' | translate }}</a></li>
+                                <li><a href="" ng-click="actionExporterExcel()">{{'ECRAN.ANALYSE.EXPORTATION' | translate }}</a></li>
+                            </ul>
+                        </div>
+-->
+                    </div>
+
+                    <div ng-switch on="rapportActif">
+                        <!--
+                          RAPPORT DÉTAILLÉ PAR OPÉRATION
+                        -->
+                        <div ng-switch-when="0" id="zoneImprimable">
+                            <div class="row">
+                                <div class="col-sm-1" style="margin-top: 5px; padding-right: 0px;">
+                                    <img ng-src="{{ picture }}" id="logoRapport" style="margin-bottom: 10px;"
+                                         ng-style="{ width : 64, height : 64 }">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                                <div class="col-sm-10" style="padding-right: 0px; padding-left: 0px;">
+                                    <center>
+                                        <h3 class="with-line-top-modal"
+                                            style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                            {{'ECRAN.ANALYSE.RAPPORT1' | translate }}
+                                            <span style="font-size: 14px; text-transform: none;">
+                                              <br>{{dateDebut}} - {{dateFin}}
+                                              <br>{{compteSelected.nomSousPosteBudgetaireLov | translate}}
+                                            </span>
+                                        </h3>
+                                    </center>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 79px; padding-left: 0px;">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <!--
+                              Non comparatif
+                            -->
+                            <div ng-if="!switcherValues.comparatif">
+                              <!--
+                              Section des dépenses et revenus
+                              -->
+                              <div class="row" style="margin-bottom: 15px;"
+                                   ng-if="switcherValues.revenu || switcherValues.depense">
+                                  <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                      <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.SECTION_DEP_REV' | translate}}</h4>
+                                      <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                          <thead>
+                                          <tr style="font-size: 14px;">
+                                              <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                              <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                              <th style="width:54%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                              <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.ENTREE' | translate }}</th>
+                                              <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SORTIE' | translate }}</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr ng-repeat="item in analyseDepRevData | orderBy: 'operation | translate':false:ctrl.localeSensitiveComparator | orderBy: 'date'">
+                                              <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                              <td style="width:5%" id="td-img">
+                                                  <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}" width="20" height="20">
+                                              </td>
+                                              <td style="width:54%; word-wrap:break-word; white-space:unset;" class="nowrap" ng-if="!switcherValues.poste">{{item.operation | translate}}</td>
+                                              <td style="width:54%; word-wrap:break-word; white-space:unset;" class="nowrap" ng-if="switcherValues.poste">[{{item.nomPoste | translate}}]&nbsp;{{item.operation | translate}}</td>
+                                              <td align="right" style="width:13%; min-width: 128px;" class="nowrap"><span ng-if="item.entree">{{item.entree | cuCurrency: ctrl.devise}}</span></td>
+                                              <td align="right" style="width:13%; min-width: 128px;" class="nowrap"><span ng-if="item.sortie">{{item.sortie | cuCurrency: ctrl.devise}}</span></td>
+                                          </tr>
+                                          <tr style="font-weight: 500;" ng-if="switcherValues.revenu">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:54%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                              <td style="width:13%; min-width: 128px;"></td>
+                                              <td align="right" style="width:13%; min-width: 128px;" class="nowrap">
+                                                  <span ng-if="analyseTotalDepRevEntreesReel">{{analyseTotalDepRevEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          <tr style="font-weight: 500;" ng-if="switcherValues.depense">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:54%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                              <td style="width:13%; min-width: 128px;"></td>
+                                              <td align="right" style="width:13%; min-width: 128px;" class="nowrap">
+                                                  <span ng-if="analyseTotalDepRevSortiesReel">{{analyseTotalDepRevSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          <tr style="font-weight: 500;" ng-if="switcherValues.revenu && switcherValues.depense">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:54%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                              <td style="width:13%"></td>
+                                              <td ng-if="entreesDepRevOver" align="right" style="width:13%; color: green; min-width: 128px;"  class="nowrap">
+                                                  <span ng-if="analyseDiffDepRevES">{{analyseDiffDepRevES | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!entreesDepRevOver" align="right" style="width:13%; color: red; min-width: 128px;" class="nowrap">
+                                                  <span ng-if="analyseDiffDepRevES">{{analyseDiffDepRevES | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                              <!--
+                              Section des comptes
+                              -->
+                              <div style=""
+                                   ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 3}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                  <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.compte">
+                                      <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                          <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.COMPTE' | translate }} : {{compte.description | translate }}</h4>
+                                          <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                              <thead>
+                                              <tr style="font-size: 14px;">
+                                                  <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:41%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.ENTREE' | translate }}
+                                                  </th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.SORTIE' | translate }}
+                                                  </th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                                  </th>
+                                              </tr>
+                                              </thead>
+
+                                              <tbody>
+                                              <tr ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                  <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                  <td style="width:5%" id="td-img">
+                                                      <img ng-if="item.image"
+                                                           ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                           height="20"></td>
+                                                  <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                  </td>
+                                                  <td align="right" style="width:13%" class="nowrap">
+                                                      <span ng-if="item.entree">{{item.entree | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:13%; min-width: 128px;" class="nowrap">
+                                                      <span ng-if="item.sortie">{{item.sortie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:13%; min-width: 128px;" class="nowrap">{{item.solde | cuCurrency: ctrl.devise}}</td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td align="right" style="width:13%; min-width: 128px;" class="nowrap">
+                                                      <span ng-if="compte.totalCptEntreesReel">{{compte.totalCptEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td align="right" style="width:13%; min-width: 128px;" class="nowrap">
+                                                      <span ng-if="compte.totalCptSortiesReel">{{compte.totalCptSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td ng-if="compte.entreesCptOver" align="right" style="width:13%; color: green; min-width: 128px;"  class="nowrap">
+                                                      <span ng-if="compte.diffCptES">{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesCptOver" align="right" style="width:13%; color: red; min-width: 128px;" class="nowrap">
+                                                      <span ng-if="compte.diffCptES">{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!--
+                              Section des crédits
+                              -->
+                              <div style=""
+                                   ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 6}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                  <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.credit">
+                                      <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                          <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.CREDIT' | translate }} : {{compte.description | translate }}</h4>
+                                          <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                              <thead>
+                                              <tr style="font-size: 14px;">
+                                                  <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:41%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.ENTREE' | translate }}
+                                                  </th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.SORTIE' | translate }}
+                                                  </th>
+                                                  <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                                  </th>
+                                              </tr>
+                                              </thead>
+                                              <tbody>
+                                              <tr ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                  <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                  <td style="width:5%" id="td-img">
+                                                      <img ng-if="item.image"
+                                                           ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                           height="20"></td>
+                                                  <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                  </td>
+                                                  <td align="right" style="width:13%" class="nowrap">
+                                                      <span ng-if="item.entree">{{item.entree | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:13%" class="nowrap">
+                                                      <span ng-if="item.sortie">{{item.sortie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:13%" class="nowrap">{{item.solde | cuCurrency: ctrl.devise}}
+                                                  </td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td align="right" style="width:13%" class="nowrap">
+                                                      <span ng-if="compte.totalCptEntreesReel">{{compte.totalCptEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td align="right" style="width:13%" class="nowrap">
+                                                      <span ng-if="compte.totalCptSortiesReel">{{compte.totalCptSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:15%"></td>
+                                                  <td style="width:5%"></td>
+                                                  <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                                  <td style="width:13%"></td>
+                                                  <td style="width:13%"></td>
+                                                  <td ng-if="compte.entreesCptOver" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                      <span ng-if="compte.diffCptES">{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesCptOver" align="right" style="width:13%; color: red;" class="nowrap">
+                                                      <span ng-if="compte.diffCptES">{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <!--
+                              Comparatif
+                            -->
+                            <div ng-if="switcherValues.comparatif">
+                              <!--
+                              Section des dépenses et revenus
+                              -->
+                              <div class="row" style="margin-bottom: 15px;"
+                                   ng-if="switcherValues.revenu || switcherValues.depense">
+                                  <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                      <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.SECTION_DEP_REV' | translate}}</h4>
+                                      <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                          <thead>
+                                          <tr style="font-size: 14px;">
+                                              <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                              <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                              <th style="width:41%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                              <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                              <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.PLANIFIE' | translate }}</th>
+                                              <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.DIFFERENCE' | translate }}</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                              ng-repeat="item in analyseDepRevData | orderBy: 'operation | translate':false:ctrl.localeSensitiveComparator | orderBy: 'date'">
+                                              <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                              <td style="width:5%" id="td-img">
+                                                  <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}" width="20" height="20">
+                                              </td>
+                                              <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap" ng-if="!switcherValues.poste">{{item.operation | translate}}
+                                                <div align="right"
+                                                     ng-if="switcherValues.conciliation"
+                                                     style="line-height: 14px; color: green; font-size: 12px;"
+                                                     ng-repeat="ventilation in analyseDepRevVentilation | filter:{idRegle: item.idRegle}:true | filter:{dateException: item.date}:true | orderBy:'description | translate':false:ctrl.localeSensitiveComparator">
+                                                  &nbsp;&nbsp;{{ventilation.description}}{{ventilation.montant | cuCurrency: ctrl.devise}}
+                                                </div>
+                                              </td>
+                                              <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap" ng-if="switcherValues.poste">[{{item.nomPoste | translate}}]&nbsp;{{item.operation | translate}}
+                                                <div align="right"
+                                                     ng-if="switcherValues.conciliation"
+                                                     style="line-height: 14px; color: green; font-size: 12px;"
+                                                     ng-repeat="ventilation in analyseDepRevVentilation | filter:{idRegle: item.idRegle}:true | filter:{dateException: item.date}:true | orderBy:'description | translate':false:ctrl.localeSensitiveComparator">
+                                                  &nbsp;&nbsp;{{ventilation.description}}{{ventilation.montant | cuCurrency: ctrl.devise}}
+                                                </div>
+                                              </td>
+                                              <td align="right" style="width:13%" class="nowrap"><span ng-if="item.reel">{{item.reel | cuCurrency: ctrl.devise}}</span></td>
+                                              <td align="right" style="width:13%" class="nowrap"><span ng-if="item.planifie">{{item.planifie | cuCurrency: ctrl.devise}}</span></td>
+                                              <td align="right" style="width:13%" class="nowrap"><span ng-if="item.difference">{{item.difference | cuCurrency: ctrl.devise}}</span></td>
+                                          </tr>
+                                          <tr style="font-weight: 500;">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                              <td align="right" style="width:13%" class="nowrap">
+                                                  <span>{{analyseTotalDepRevEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td align="right" style="width:13%" class="nowrap">
+                                                  <span>{{analyseTotalDepRevEntreesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="entreesDiffPos" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                  <span>{{analyseTotalDepRevEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!entreesDiffPos" align="right" style="width:13%; color: red;" class="nowrap">
+                                                  <span>{{analyseTotalDepRevEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          <tr style="font-weight: 500;">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                              <td align="right" style="width:13%" class="nowrap">
+                                                  <span>{{analyseTotalDepRevSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td align="right" style="width:13%" class="nowrap">
+                                                  <span>{{analyseTotalDepRevSortiesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="sortiesDiffPos" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                  <span>{{analyseTotalDepRevSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!sortiesDiffPos" align="right" style="width:13%; color: red;" class="nowrap">
+                                                  <span>{{analyseTotalDepRevSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          <tr style="font-weight: 500;">
+                                              <td style="width:15%"></td>
+                                              <td style="width:5%"></td>
+                                              <td style="width:41%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                              <td ng-if="entreesDepRevOver" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                  <span>{{analyseDiffDepRevES | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!entreesDepRevOver" align="right" style="width:13%; color: red;" class="nowrap">
+                                                  <span>{{analyseDiffDepRevES | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="entreesDepRevPlanifOver" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                  <span>{{analyseDiffDepRevESPlanif | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!entreesDepRevPlanifOver" align="right" style="width:13%; color: red;" class="nowrap">
+                                                  <span>{{analyseDiffDepRevESPlanif | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="entreesDepRevDiffOver" align="right" style="width:13%; color: green;"  class="nowrap">
+                                                  <span>{{analyseDiffDepRevESDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                              <td ng-if="!entreesDepRevDiffOver" align="right" style="width:13%; color: red;" class="nowrap">
+                                                  <span>{{analyseDiffDepRevESDiff | cuCurrency: ctrl.devise}}</span>
+                                              </td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                              <!--
+                              Section des comptes
+                              -->
+                              <div style=""
+                                   ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 3}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                  <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.compte">
+                                      <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                          <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.COMPTE' | translate }} : {{compte.description | translate }}</h4>
+                                          <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                              <thead>
+                                              <tr style="font-size: 14px;">
+                                                  <th style="width:12%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                                  <th style="width:3%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:37%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.REEL' | translate }}
+                                                  </th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.PLANIFIE' | translate }}
+                                                  </th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.DIFFERENCE' | translate }}
+                                                  </th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                      {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                                  </th>
+                                              </tr>
+                                              </thead>
+
+                                              <tbody>
+                                              <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                  ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                  <td style="width:12%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                  <td style="width:3%" id="td-img">
+                                                      <img ng-if="item.image"
+                                                           ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                           height="20"></td>
+                                                  <td style="width:37%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.reel">{{item.reel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.planifie">{{item.planifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.difference">{{item.difference | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">{{item.solde | cuCurrency: ctrl.devise}}</td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesDiffPos" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.totalCptEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesDiffPos" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.sortiesDiffPos" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.totalCptSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.sortiesDiffPos" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                                  <td ng-if="compte.entreesCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesPlanCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptESPlanif | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesPlanCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptESPlanif | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesDiffCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptESDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesDiffCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptESDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!--
+                              Section des crédits
+                              -->
+                              <div style=""
+                                   ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 6}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                  <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.credit">
+                                      <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                          <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.CREDIT' | translate }} : {{compte.description | translate }}</h4>
+                                          <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                            <thead>
+                                            <tr style="font-size: 14px;">
+                                                <th style="width:12%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                                <th style="width:3%; font-weight: bold" id="th-img"></th>
+                                                <th style="width:37%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.REEL' | translate }}
+                                                </th>
+                                                <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.PLANIFIE' | translate }}
+                                                </th>
+                                                <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.DIFFERENCE' | translate }}
+                                                </th>
+                                                <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                              <tbody>
+                                              <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                  ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                  <td style="width:12%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                  <td style="width:3%" id="td-img">
+                                                      <img ng-if="item.image"
+                                                           ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                           height="20"></td>
+                                                  <td style="width:37%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.reel">{{item.reel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.planifie">{{item.planifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span ng-if="item.difference">{{item.difference | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">{{item.solde | cuCurrency: ctrl.devise}}</td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_ENTREES' | translate}}</td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesDiffPos" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.totalCptEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesDiffPos" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.totalCptEntreesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_SORTIES' | translate}}</td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesReel | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td align="right" style="width:12%" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.sortiesDiffPos" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.totalCptSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.sortiesDiffPos" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.totalCptSortiesDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              <tr style="font-weight: 500;">
+                                                  <td style="width:12%"></td>
+                                                  <td style="width:3%"></td>
+                                                  <td style="width:37%" align="right" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                                  <td ng-if="compte.entreesCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptES | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesPlanCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptESPlanif | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesPlanCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptESPlanif | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="compte.entreesDiffCptOver" align="right" style="width:12%; color: green;"  class="nowrap">
+                                                      <span>{{compte.diffCptESDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td ng-if="!compte.entreesDiffCptOver" align="right" style="width:12%; color: red;" class="nowrap">
+                                                      <span>{{compte.diffCptESDiff | cuCurrency: ctrl.devise}}</span>
+                                                  </td>
+                                                  <td style="width:12%"></td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <!--
+                            Section des épargnes
+                            -->
+                            <div ng-if="!switcherValues.comparatif" style=""
+                                 ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 4}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.epargne">
+                                    <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                        <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.EPARGNE' | translate }} : {{compte.description | translate }}</h4>
+                                        <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                            <thead>
+                                            <tr style="font-size: 14px;">
+                                                <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' |
+                                                    translate }}
+                                                </th>
+                                                <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                <th style="width:41%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' |
+                                                    translate}}
+                                                </th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.ENTREE' | translate }}
+                                                </th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.SORTIE' | translate }}
+                                                </th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                    {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                                </th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                <td style="width:5%" id="td-img">
+                                                    <img ng-if="item.image"
+                                                         ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                         height="20"></td>
+                                                <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">
+                                                    <span ng-if="item.entree">{{item.entree | cuCurrency: ctrl.devise}}</span>
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">
+                                                    <span ng-if="item.sortie">{{item.sortie | cuCurrency: ctrl.devise}}</span>
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">{{item.solde |
+                                                    cuCurrency: ctrl.devise}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            Section des prêts
+                            -->
+                            <div ng-if="!switcherValues.comparatif" style=""
+                                 ng-repeat="compte in analyseListeCompte | filter:{idCategorie: 5}:true | orderBy:'idx | translate':false:ctrl.localeSensitiveComparator">
+                                <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.pret">
+                                    <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                        <h4 class="with-background">&nbsp;{{'ECRAN.ANALYSE.PRET' | translate }} : {{compte.description | translate }}</h4>
+                                        <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                            <thead>
+                                            <tr style="font-size: 14px;">
+                                                <th style="width:15%; font-weight: bold">{{ 'ECRAN.ANALYSE.DATE' | translate }}</th>
+                                                <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                <th style="width:41%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.ENTREE' | translate }}</th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SORTIE' | translate }}</th>
+                                                <th style="width:13%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SOLDE' | translate }}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="item in analyseCompteData | filter:{idCompte: compte.id}:true | orderBy: 'sequence' | orderBy: 'date'">
+                                                <td style="width:15%;white-space: nowrap;" class="nowrap">{{item.date}}</td>
+                                                <td style="width:5%" id="td-img">
+                                                    <img ng-if="item.image"
+                                                         ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                         height="20"></td>
+                                                <td style="width:41%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.operation | translate}}
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">
+                                                    <span ng-if="item.entree">{{item.entree | cuCurrency: ctrl.devise}}</span>
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">
+                                                    <span ng-if="item.sortie">{{item.sortie | cuCurrency: ctrl.devise}}</span>
+                                                </td>
+                                                <td align="right" style="width:13%" class="nowrap">{{item.solde | cuCurrency: ctrl.devise}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                          RAPPORT SOMMAIRE PAR OPÉRATION
+                        -->
+                        <div ng-switch-when="1" id="zoneImprimable">
+                            <div class="row">
+                                <div class="col-sm-1" style="margin-top: 5px; padding-right: 0px;">
+                                    <img ng-src="{{ picture }}" id="logoRapport" style="margin-bottom: 10px;"
+                                         ng-style="{ width : 64, height : 64 }">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                                <div class="col-sm-10" style="padding-right: 0px; padding-left: 0px;">
+                                    <center>
+                                        <h3 class="with-line-top-modal"
+                                            style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                            {{'ECRAN.ANALYSE.RAPPORT2' | translate }}
+                                            <span style="font-size: 14px; text-transform: none;">
+                                              <br>{{dateDebut}} - {{dateFin}}
+                                              <br>{{compteSelected.nomSousPosteBudgetaireLov | translate}}
+                                            </span>
+                                        </h3>
+                                    </center>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 79px; padding-left: 0px;">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <!--
+                            Sections du rapport
+                            -->
+                            <!--
+                            Section des revenus
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.revenu && revenuData">&nbsp;{{'ECRAN.ANALYSE.SECTION_REVENU' | translate }}</h4>
+                            <div ng-switch on="switcherValues.poste">
+                                <div ng-switch-when=true>
+                                    <div style=""
+                                         ng-repeat="poste in analyseRevDataPosteBudgetaires | filter:{idCategorie: 1}:true | orderBy: 'description':false:ctrl.localeSensitiveComparator"
+                                         ng-if="switcherValues.revenu && revenuData">
+                                        <div class="row" style="margin-bottom: 15px;">
+                                            <div class="horizontal-scroll"
+                                                 style="margin-left: 15px; margin-right: 15px;">
+                                                <!-- SANS COMPARATIF -->
+                                                <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                                  <thead>
+                                                    <tr style="font-size: 14px;">
+                                                      <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                      <th style="width:80%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                      <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.MONTANT' | translate }}</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr style="font-weight: 500; background-color: #E2F3E4;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{poste.description | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap"></td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in analyseRevDataSousPosteBudgetaires | filter:{idPosteBudgetaire: poste.idPosteBudgetaire}:true | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="item.image"
+                                                                 ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap">
+                                                            <span ng-if="item.montant">{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="font-weight: 500;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap">
+                                                            <span ng-if="poste.montant">{{poste.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                                <!-- AVEC COMPARATIF -->
+                                                <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                                  <thead>
+                                                    <tr style="font-size: 14px;">
+                                                      <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                      <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.PLANIFIE' | translate }}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.DIFFERENCE' | translate }}</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr style="font-weight: 500; background-color: #E2F3E4;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{poste.description | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                    </tr>
+                                                    <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                        ng-repeat="item in analyseRevDataSousPosteBudgetaires | filter:{idPosteBudgetaire: poste.idPosteBudgetaire}:true | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="item.image"
+                                                                 ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="font-weight: 500;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montant">{{poste.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montantPlanifie">{{poste.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montantDifference">{{poste.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-switch-when=false>
+                                    <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.revenu && revenuData">
+                                        <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                            <!-- SANS COMPARATIF -->
+                                            <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                              <thead>
+                                                <tr style="font-size: 14px;">
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:80%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.MONTANT' | translate }}</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr ng-repeat="item in analyseRevDataSousPosteBudgetaires | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="item.image"
+                                                             ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                             height="20"></td>
+                                                    <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                    <td align="right" style="width:15%" class="nowrap">
+                                                        <span ng-if="item.montant">{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-weight: 500;">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="poste.image"
+                                                             ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                             width="20" height="20"></td>
+                                                    <td style="width:80%;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                    <td align="right" style="width:15%" class="nowrap">
+                                                        <span>{{analyseTotalRevenu | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            <!-- AVEC COMPARATIF -->
+                                            <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                              <thead>
+                                                <tr style="font-size: 14px;">
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.PLANIFIE' | translate }}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.DIFFERENCE' | translate }}</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                    ng-repeat="item in analyseRevDataSousPosteBudgetaires | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="item.image"
+                                                             ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                             height="20"></td>
+                                                    <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-weight: 500;">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="poste.image"
+                                                             ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                             width="20" height="20"></td>
+                                                    <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalRevenu | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalRevenuPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalRevenuDifference | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            Section des dépenses
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.depense && depenseData">&nbsp;{{'ECRAN.ANALYSE.SECTION_DEPENSE' | translate }}</h4>
+                            <div ng-switch on="switcherValues.poste">
+                                <div ng-switch-when=true>
+                                    <div style=""
+                                         ng-repeat="poste in analyseDepDataPosteBudgetaires | filter:{idCategorie: 2}:true | orderBy: 'description':false:ctrl.localeSensitiveComparator"
+                                         ng-if="switcherValues.depense && depenseData">
+                                        <div class="row" style="margin-bottom: 15px;">
+                                            <div class="horizontal-scroll"
+                                                 style="margin-left: 15px; margin-right: 15px;">
+                                               <!-- SANS COMPARATIF -->
+                                               <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                                  <thead>
+                                                    <tr style="font-size: 14px;">
+                                                      <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                      <th style="width:80%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                      <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.MONTANT' | translate }}</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr style="font-weight: 500; background-color: #E2F3E4;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{poste.description | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap"></td>
+                                                    </tr>
+                                                    <tr ng-repeat="item in analyseDepDataSousPosteBudgetaires | filter:{idPosteBudgetaire: poste.idPosteBudgetaire}:true | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="item.image"
+                                                                 ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap">
+                                                            <span ng-if="item.montant">{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="font-weight: 500;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                        <td align="right" style="width:15%" class="nowrap">
+                                                            <span ng-if="poste.montant">{{poste.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                                <!-- AVEC COMPARATIF -->
+                                                <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                                  <thead>
+                                                    <tr style="font-size: 14px;">
+                                                      <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                      <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.PLANIFIE' | translate }}</th>
+                                                      <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.DIFFERENCE' | translate }}</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    <tr style="font-weight: 500; background-color: #E2F3E4;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{poste.description | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                        <td align="right" style="width:12%" class="nowrap"></td>
+                                                    </tr>
+                                                    <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                        ng-repeat="item in analyseDepDataSousPosteBudgetaires | filter:{idPosteBudgetaire: poste.idPosteBudgetaire}:true | orderBy:'description':false:ctrl.localeSensitiveComparator">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="item.image"
+                                                                 ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span >{{item.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="font-weight: 500;">
+                                                        <td style="width:5%" id="td-img">
+                                                            <img ng-if="poste.image"
+                                                                 ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                                 width="20" height="20"></td>
+                                                        <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montant">{{poste.montant | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montantPlanifie">{{poste.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                        <td align="right" style="width:12%" class="nowrap">
+                                                            <span ng-if="poste.montantDifference">{{poste.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                        </td>
+                                                    </tr>
+                                                  </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-switch-when=false>
+                                    <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.depense && depenseData">
+                                        <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                            <!-- SANS COMPARATIF -->
+                                            <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                              <thead>
+                                                <tr style="font-size: 14px;">
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:80%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.MONTANT' | translate }}</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr ng-repeat="item in analyseDepDataSousPosteBudgetaires | orderBy: 'description':false:ctrl.localeSensitiveComparator">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="item.image"
+                                                             ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                             height="20"></td>
+                                                    <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                    <td align="right" style="width:15%" class="nowrap">
+                                                        <span ng-if="item.montant">{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-weight: 500;">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="poste.image"
+                                                             ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                             width="20" height="20"></td>
+                                                    <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                    <td align="right" style="width:15%" class="nowrap">
+                                                        <span>{{analyseTotalDepense | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                            <!-- AVEC COMPARATIF -->
+                                            <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                              <thead>
+                                                <tr style="font-size: 14px;">
+                                                  <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                                  <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.OPERATION' | translate}}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.PLANIFIE' | translate }}</th>
+                                                  <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.DIFFERENCE' | translate }}</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr ng-class="{'conciliation-bleu': item.concilie == 1}"
+                                                    ng-repeat="item in analyseDepDataSousPosteBudgetaires | orderBy: 'description':false:ctrl.localeSensitiveComparator">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="item.image"
+                                                             ng-src="{{::(item.image | glossyBusinessImg )}}" width="20"
+                                                             height="20"></td>
+                                                    <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montant | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montantPlanifie | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span >{{item.montantDifference | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-weight: 500;">
+                                                    <td style="width:5%" id="td-img">
+                                                        <img ng-if="poste.image"
+                                                             ng-src="{{::(poste.image | glossyBusinessImg )}}"
+                                                             width="20" height="20"></td>
+                                                    <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalDepense | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalDepensePlanifie | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                    <td align="right" style="width:12%" class="nowrap">
+                                                        <span>{{analyseTotalDepenseDifference | cuCurrency: ctrl.devise}}</span>
+                                                    </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            Section des totaux -> Revenus & Dépenses
+                            -->
+                            <div ng-if="(switcherValues.depense && depenseData) || (switcherValues.revenu && revenuData)">
+                              <!-- SANS COMPARATIF -->
+                              <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                <tbody>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.revenu && revenuData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:80%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_REVENU' | translate}}</td>
+                                      <td align="right" style="width:15%; min-width: 128px;white-space: nowrap;" class="nowrap"><span>{{analyseTotalRevenu | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.depense && depenseData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:80%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_DEPENSE' | translate}}</td>
+                                      <td align="right" style="width:15%;white-space: nowrap;" class="nowrap"><span>{{analyseTotalDepense | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.depense && depenseData && switcherValues.revenu && revenuData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:80%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                      <td ng-if="revOver"  align="right" style="width:15%; white-space: nowrap; color: green;" class="nowrap"><span>{{analyseDiffRevenuDep | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!revOver" align="right" style="width:15%; white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseDiffRevenuDep | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <!-- AVEC COMPARATIF -->
+                              <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                <tbody>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.revenu && revenuData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:50%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_REVENU' | translate}}</td>
+                                      <td align="right" style="width:12%; min-width: 128px; white-space: nowrap;" class="nowrap"><span>{{analyseTotalRevenu | cuCurrency: ctrl.devise}}</span></td>
+                                      <td align="right" style="width:12%; min-width: 128px; white-space: nowrap;" class="nowrap"><span>{{analyseTotalRevenuPlanifie | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="revDiffPos"  align="right" style="width:12%; min-width: 128px;white-space: nowrap; color: green;" class="nowrap"><span>{{analyseTotalRevenuDifference | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!revDiffPos" align="right" style="width:12%; min-width: 128px;white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseTotalRevenuDifference | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.depense && depenseData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:50%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.TOTAL_DEPENSE' | translate}}</td>
+                                      <td align="right" style="width:12%; min-width: 128px; white-space: nowrap; " class="nowrap"><span>{{analyseTotalDepense | cuCurrency: ctrl.devise}}</span></td>
+                                      <td align="right" style="width:12%; min-width: 128px; white-space: nowrap; " class="nowrap"><span>{{analyseTotalDepensePlanifie | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="depDiffPos"  align="right" style="width:12%; min-width: 128px;white-space: nowrap; color: green;" class="nowrap"><span>{{analyseTotalDepenseDifference | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!depDiffPos" align="right" style="width:12%; min-width: 128px;white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseTotalDepenseDifference | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                  <tr style="font-weight: 500;" ng-if="switcherValues.depense && depenseData && switcherValues.revenu && revenuData">
+                                      <td style="width:5%"></td>
+                                      <td style="width:50%;text-align: right;" class="nowrap">{{'ECRAN.ANALYSE.DIFFERENCE' | translate}}</td>
+                                      <td ng-if="revOver"        align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: green;" class="nowrap"><span>{{analyseDiffRevenuDep | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!revOver"       align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseDiffRevenuDep | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="revOverPlanif"  align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: green;" class="nowrap"><span>{{analyseDiffRevenuDepPlanif | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!revOverPlanif" align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseDiffRevenuDepPlanif | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="revOverDiff"    align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: green;" class="nowrap"><span>{{analyseDiffRevenuDepDiff | cuCurrency: ctrl.devise}}</span></td>
+                                      <td ng-if="!revOverDiff"   align="right" style="width:12%; min-width: 128px; white-space: nowrap; color: red;"   class="nowrap"><span>{{analyseDiffRevenuDepDiff | cuCurrency: ctrl.devise}}</span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!--
+                            Section des comptes
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.compte && compteData">&nbsp;{{'ECRAN.ANALYSE.SECTION_COMPTE' | translate }}</h4>
+                            <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.compte && compteData">
+                                <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                    <!-- SANS COMPARATIF -->
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:80%; font-weight: bold">{{'ECRAN.ANALYSE.NOM' | translate }}</th>
+                                          <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SOLDE' | translate }}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 3}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}</td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalCompte">{{analyseSoldeTotalCompte | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    <!-- AVEC COMPARATIF -->
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.NOM' | translate}}</th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;"></th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;"></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 3}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' |  translate}}</td>
+                                            <td align="right" style="width:12%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalCompte">{{analyseSoldeTotalCompte | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--
+                            Section des crédits
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.credit && creditData">&nbsp;{{'ECRAN.ANALYSE.SECTION_CREDIT' | translate }}</h4>
+                            <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.credit && creditData">
+                                <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                    <!-- SANS COMPARATIF -->
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="!switcherValues.comparatif">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:80%; font-weight: bold">{{'ECRAN.ANALYSE.NOM' | translate }}</th>
+                                          <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SOLDE' | translate }}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 6}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalCredit">{{analyseSoldeTotalCredit | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    <!-- AVEC COMPARATIF -->
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover" ng-if="switcherValues.comparatif">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:59%; font-weight: bold">{{ 'ECRAN.ANALYSE.NOM' | translate}}</th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.REEL' | translate }}</th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;"></th>
+                                          <th style="width:12%; font-weight: bold; text-align: right; min-width: 128px;"></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 6}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:59%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:59%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' | translate}}</td>
+                                            <td align="right" style="width:12%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalCredit">{{analyseSoldeTotalCredit | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                            <td align="right" style="width:12%" class="nowrap"></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--
+                            Section des épargnes
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.epargne && !switcherValues.comparatif && epargneData">&nbsp;{{'ECRAN.ANALYSE.SECTION_EPARGNE' | translate }}</h4>
+                            <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.epargne && !switcherValues.comparatif && epargneData">
+                                <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:80%; font-weight: bold">{{'ECRAN.ANALYSE.NOM' | translate }}</th>
+                                          <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SOLDE' | translate }}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 4}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' |
+                                                translate}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalEpargne">{{analyseSoldeTotalEpargne | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--
+                            Section des prêts
+                            -->
+                            <h4 class="with-background" ng-if="switcherValues.pret && !switcherValues.comparatif && pretData">&nbsp;{{'ECRAN.ANALYSE.SECTION_PRET' | translate }}</h4>
+                            <div class="row" style="margin-bottom: 15px;" ng-if="switcherValues.pret && !switcherValues.comparatif && pretData">
+                                <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                      <thead>
+                                        <tr style="font-size: 14px;">
+                                          <th style="width:5%; font-weight: bold" id="th-img"></th>
+                                          <th style="width:80%; font-weight: bold">{{'ECRAN.ANALYSE.NOM' | translate }}</th>
+                                          <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">{{'ECRAN.ANALYSE.SOLDE' | translate }}</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | filter:{idCategorie: 5}:true | orderBy:idx:false:ctrl.localeSensitiveComparator">
+                                            <td style="width:5%" id="td-img">
+                                                <img ng-if="item.image" ng-src="{{::(item.image | glossyBusinessImg )}}"
+                                                     width="20" height="20"></td>
+                                            <td style="width:80%; word-wrap:break-word; white-space:unset;" class="nowrap">{{item.description | translate}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:5%" id="td-img"></td>
+                                            <td style="width:80%" class="nowrap">{{'ECRAN.ANALYSE.TOTAL' |
+                                                translate}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotalPret">{{analyseSoldeTotalPret | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--
+                            Section des graphiques
+                            -->
+                            <div ng-switch on="switcherValues.graphique">
+                                <div ng-switch-when=true>
+                                    <div ng-switch on="switcherValues.revenu">
+                                        <div ng-switch-when=true>
+                                            <div class="row">
+                                                <div class="horizontal-scroll"
+                                                     style="margin-left: 15px; margin-right: 15px;">
+                                                    <revenu-chart></revenu-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-switch on="switcherValues.depense">
+                                        <div ng-switch-when=true>
+                                            <div class="row">
+                                                <div class="horizontal-scroll"
+                                                     style="margin-left: 15px; margin-right: 15px;">
+                                                    <depense-chart></depense-chart>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                          RAPPORT BILAN FINANCIER
+                        -->
+                        <div ng-switch-when="2" id="zoneImprimable">
+                            <div class="row">
+                                <div class="col-sm-1" style="margin-top: 5px; padding-right: 0px;">
+                                    <img ng-src="{{ picture }}" id="logoRapport" style="margin-bottom: 10px;"
+                                         ng-style="{ width : 64, height : 64 }">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                                <div class="col-sm-10" style="padding-right: 0px; padding-left: 0px; margin-top: 27px;">
+                                    <center>
+                                        <h3 class="with-line-top-modal"
+                                            style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                            {{'ECRAN.ANALYSE.RAPPORT3' | translate }}
+                                            <span style="font-size: 14px; text-transform: none;">
+                                              <br>{{dateDebut}} - {{dateFin}}<br>
+                                            </span>
+                                        </h3>
+                                    </center>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 79px; padding-left: 0px;">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <!--
+                            Sections du rapport
+                            -->
+                            <div class="row" style="margin-bottom: 15px;">
+                                <div class="horizontal-scroll" style="margin-left: 15px; margin-right: 15px;">
+                                    <table style="width: 100%; table-layout: fixed;" class="table table-hover">
+                                        <thead>
+                                        <tr style="font-size: 14px;">
+                                            <th style="width:15%; font-weight: bold; text-align: left;">{{
+                                                'ECRAN.ANALYSE.OPERATION' | translate }}
+                                            </th>
+                                            <th style="width:65%; font-weight: bold; text-align: left;">{{
+                                                'ECRAN.ANALYSE.BILAN_FINANCIER' | translate}}
+                                            </th>
+                                            <th style="width:5%;  font-weight: bold; text-align: left;"></th>
+                                            <th style="width:15%; font-weight: bold; text-align: right; min-width: 128px;">
+                                                {{'ECRAN.ANALYSE.SOLDE' | translate }}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in analyseListeCompte | orderBy:idx:false:ctrl.localeSensitiveComparator track by $index">
+                                            <td style="width:15%; text-align: left;" class="nowrap">{{item.operation
+                                                | translate}}
+                                            </td>
+                                            <td style="width:65%; text-align: left; word-wrap:break-word; white-space:unset;" class="nowrap">
+                                                {{item.description | translate}}
+                                            </td>
+                                            <td style="width:5%; text-align: left;" class="nowrap">{{item.signe}}
+                                            </td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="item.solde">{{item.solde | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="font-weight: 500;">
+                                            <td style="width:15%; text-align: left;"></td>
+                                            <td style="width:65%; text-align: left;" class="nowrap">
+                                                {{'ECRAN.ANALYSE.TOTAL_BILAN' | translate}}
+                                            </td>
+                                            <td style="width:5%; text-align: left;"></td>
+                                            <td align="right" style="width:15%" class="nowrap">
+                                                <span ng-if="analyseSoldeTotal">{{analyseSoldeTotal | cuCurrency: ctrl.devise}}</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--
+                          FLUX DE TRÉSORERIE
+                        -->
+                        <div ng-switch-when="3" id="zoneImprimable">
+                            <div class="row">
+                                <div class="col-sm-1" style="margin-top: 5px; padding-right: 0px;">
+                                    <img ng-src="{{ picture }}" id="logoRapport" style="margin-bottom: 10px;"
+                                         ng-style="{ width : 64, height : 64 }">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                                <div class="col-sm-10" style="padding-right: 0px; padding-left: 0px; margin-top: 27px;">
+                                    <center>
+                                        <h3 class="with-line-top-modal"
+                                            style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                            {{'ECRAN.ANALYSE.RAPPORT4' | translate }}
+                                            <span style="font-size: 14px; text-transform: none;">
+                          <br>{{dateDebut}} - {{dateFin}}<br>
+                        </span>
+                                        </h3>
+                                    </center>
+                                </div>
+                                <div class="col-sm-1" style="margin-top: 79px; padding-left: 0px;">
+                                    <h3 class="with-line-top-modal"
+                                        style="padding-top: 40px; line-height: 25px; text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <!--
+                            Section du rapport
+                            -->
+                            <nvd3 options='optionsFlux' data='dataFlux' config="{objectEquality: true}"></nvd3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-switch-when=false class="col-sm-9">
+            <div ng-switch on="rapportActif" ba-panel>
+                <div ng-switch-when="0" data-ng-bind-html="'ECRAN.ANALYSE.TEXT_AIDE_DETAILLE' | translate | htmlSafe"></div>
+                <div ng-switch-when="1" data-ng-bind-html="'ECRAN.ANALYSE.TEXT_AIDE_SOMMAIRE' | translate | htmlSafe"></div>
+                <div ng-switch-when="2" data-ng-bind-html="'ECRAN.ANALYSE.TEXT_AIDE_BILAN' | translate | htmlSafe"></div>
+                <div ng-switch-when="3" data-ng-bind-html="'ECRAN.ANALYSE.TEXT_AIDE_FLUX' | translate | htmlSafe"></div>
+            </div>
+        </div>
+    </div>
+</div>

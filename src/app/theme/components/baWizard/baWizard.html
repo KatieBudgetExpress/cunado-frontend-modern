@@ -1,0 +1,64 @@
+<div id="baWizard" class="ba-wizard">
+    <div class="ba-wizard-navigation-container">
+        <div ng-repeat="t in vm.tabs"
+             class="ba-wizard-navigation {{vm.tabNum == $index ? 'active' : ''}}"
+             ng-click="vm.selectTab($index)">
+            {{t.title}}
+        </div>
+    </div>
+    <div class="progress ba-wizard-progress">
+        <div class="progress-bar progress-bar-danger active" role="progressbar"
+             aria-valuemin="0" aria-valuemax="100" ng-style="{width: vm.progress + '%'}">
+        </div>
+    </div>
+
+    <div class="steps" ng-transclude></div>
+
+    <nav>
+        <ul class="pager ba-wizard-pager">
+            <li class="previous">
+                <button ng-hide="vm.isNotFirstTab()"
+                        ng-disabled="vm.annulerDisabled()"
+                        ng-click="vm.actionAnnuler()"
+                        ng-attr-type="button"
+                        class="btn btn-primary no-animate">
+                    <i class="ion-ios-close-outline">
+                    </i>{{ 'GLOBALE.BOUTON.ANNULER' | translate}}
+                </button>
+            </li>
+            <li class="previous">
+                <button ng-hide="vm.isFirstTab()"
+                        ng-click="vm.previousTab()"
+                        ng-attr-type="button"
+                        class=" btn btn-primary no-animate"
+                        ng-class="{
+                             'btn-desactive': vm.isActif(-1)
+                        }">
+                    <span aria-hidden="true">&larr;</span>
+                    {{ 'GLOBALE.BOUTON.PRECEDENT' | translate}}
+                </button>
+            </li>
+            <li class="next">
+                <button ng-hide="vm.isLastTab()"
+                        ng-click="vm.valideSubmit()"
+                        ng-attr-type="button"
+                        class="btn btn-primary no-animate"
+                        ng-class="{
+                             'btn-desactive': vm.isActif(1)
+                        }">{{ 'GLOBALE.BOUTON.SUIVANT' | translate}}
+                    <span aria-hidden="true">&rarr;</span>
+                </button>
+            </li>
+
+            <li class="next">
+                <button ng-hide="vm.isNotLastTab()"
+                        ng-click="vm.action()"
+                        ng-attr-type="button"
+                        class="btn btn-primary no-animate">
+                    {{ 'GLOBALE.BOUTON.TERMINER' | translate}}
+                    <i class=" ion-ios-checkmark-outline"></i>
+                </button>
+            </li>
+        </ul>
+    </nav>
+</div>

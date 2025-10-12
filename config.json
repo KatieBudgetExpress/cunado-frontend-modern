@@ -1,0 +1,17 @@
+{
+  "local": {
+    "urlBasePriver": "http://localhost:2017/private",
+    "urlBasePublic": "http://localhost:2017/public",
+    "urlSaveData":   "http://localhost:2017/savedata"
+  },
+  "production": {
+    "urlBasePriver": "https://cloud.budget-express.com/private",
+    "urlBasePublic": "https://cloud.budget-express.com/public",
+    "urlSaveData":   "https://cloud.budget-express.com/savedata"
+  },
+  "qa": {
+    "urlBasePriver": "https://d1wsftshs3u0re.cloudfront.net/private",
+    "urlBasePublic": "https://d1wsftshs3u0re.cloudfront.net/public",
+    "urlSaveData":   "https://d1wsftshs3u0re.cloudfront.net/savedata"
+  }
+}

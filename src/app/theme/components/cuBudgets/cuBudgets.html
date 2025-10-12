@@ -1,0 +1,19 @@
+<h3 class="with-line">{{ ::'ECRAN.PROFIL.LISTEBUDGET' | translate }}</h3>
+
+<div class="row clearfix">
+    <div class="col-md-3 col-sm-4" ng-repeat="budget in vm.budgets | toArray:false | orderBy:'nom':false">
+
+        <a class="sn-link" href ng-click="vm.action({$budget: budget})" ng-if="!budget.defaut">
+            <span>
+                <img ng-src="{{ '_Cancel' | glossyBusinessImg }}" ng-style="{ width : 20, height : 20 }">
+                {{ ::budget.nom }}
+            </span>
+        </a>
+        <a class="sn-link connected" href ng-click="vm.action({$budget: budget})" ng-if="budget.defaut">
+            <span>
+                <img ng-src="{{ 'Apply' | glossyBusinessImg }}" ng-style="{ width : 20, height : 20 }">
+                {{ ::budget.nom }}
+            </span>
+        </a>
+    </div>
+</div>

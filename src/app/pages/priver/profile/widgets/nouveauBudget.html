@@ -1,0 +1,94 @@
+<h3 class="with-line">{{ titreSection | translate }}</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': vm.budgetForm.budgetNom.$invalid && (vm.budgetForm.budgetNom.$touched || vm.budgetForm.$submitted)}">
+            <label for="inputNomBudget" class="col-sm-4 control-label">{{ 'ECRAN.BUDGET.NOMBUDGET' | translate
+                }}</label>
+            <div class="col-sm-8">
+                <input next-focus ng-attr-type="text" class="form-control" name="budgetNom" ng-model="budget.nom" required>
+                <span class="help-block error-block basic-block" ng-messages="vm.budgetForm.budgetNom.$error"
+                      ng-if="vm.budgetForm.budgetNom.$invalid && (vm.budgetForm.budgetNom.$touched || vm.budgetForm.$submitted)">
+                <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': vm.budgetForm.budgetDesc.$invalid && (vm.budgetForm.budgetDesc.$touched || vm.budgetForm.$submitted)}">
+            <label for="inputDescBudget" class="col-sm-2 control-label">{{ 'ECRAN.BUDGET.DESCBUDGET' | translate
+                }}</label>
+            <div class="col-sm-8">
+                <input next-focus ng-attr-type="text" class="form-control" name="budgetDesc" ng-model="budget.description"
+                       required>
+                <span class="help-block error-block basic-block" ng-messages="vm.budgetForm.budgetDesc.$error"
+                      ng-if="vm.budgetForm.budgetDesc.$invalid && (vm.budgetForm.budgetDesc.$touched || vm.budgetForm.$submitted)">
+                <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div ng-switch on="isWinOs && !modeDemo">
+  <div ng-switch-when="false"></div>
+  <div ng-switch-when="true">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group row clearfix">
+                <label for="switchconvertir" class="col-sm-2 control-label">{{ 'ECRAN.BUDGET.CONVERTIR' | translate}}</label>
+                <div class="col-sm-8" class="switches clearfix">
+                    <switch color="primary" name="budgetConvertir" ng-model="switchers.convertir" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}"
+                            unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+-->
+<div ng-switch on="switchers.convertir">
+    <div ng-switch-when="false"></div>
+    <div ng-switch-when="true">
+      <h3 class="with-line-top">{{ 'ECRAN.BUDGET.TITRE_CONVERTIR' | translate }}</h3>
+      <div class="row">
+          <div class="col-md-6">
+              <div class="form-group row clearfix has-feedback">
+                  <label for="inputDropFile" class="col-sm-4 control-label">{{::'ECRAN.CONVERSION.DROP_FILE' | translate }}</label>
+                  <div class="col-sm-8">
+                    <div ng-if="!vm.file"
+                         ng-model="vm.file" required
+                         ngf-change="vm.upload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                         class="drop-box" style="margin: 0px;"
+                         ngf-select
+                         ngf-drop
+                         ngf-drag-over-class="'dragover'"
+                         accept=".bdg"
+                         ngf-pattern="'.bdg'"
+                         data-ng-bind-html="'ECRAN.CONVERSION.DROP_FILE_DSC' | translate | htmlSafe">
+                    </div>
+                    <div ngf-no-file-drop>
+                        {{::'ECRAN.CONVERSION.DROP_FILE_COMPATIBILITY' | translate }}
+                    </div>
+
+                    <div ng-if="vm.file">
+                        <div style="padding: 8px;">{{::'ECRAN.CONVERSION.NOM_FICHIER' | translate
+                            }}{{vm.file.name}}
+                        </div>
+                        <button class="btn btn-primary no-animate"
+                                ng-click="vm.file = null; vm.tableData = null;">
+                            {{::'ECRAN.CONVERSION.RESTART_IMPORT' | translate }}
+                        </button>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+</div>

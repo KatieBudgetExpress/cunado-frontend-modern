@@ -1,0 +1,111 @@
+<!--
+ * @author M.Gagnon
+-->
+<a ng-click="openHelp()" style="float: right;" class="msg" uib-dropdown-toggle>
+    <i style="font-size: 24px;" class="fa fa-question-circle-o fa-lg"></i>
+</a>
+<div class="flex-row">
+    <div class="flex-100" style="min-height: 150px;">
+        <div class="p-8 m-v-8" style="font-size: 20px; color: #666666">
+            {{'ECRAN.ASSISTANT.COMPTES_TITRE_SECTION_GAUCHE' | translate}}
+        </div>
+        <uib-accordion>
+            <div style="margin-top:10px;" ng-repeat="posteBudgetaire in posteBudgetaires">
+                <uib-accordion-group is-open="true" panel-class="bootstrap-panel accordion-panel panel-default">
+                    <uib-accordion-heading>
+                        <img ng-src="{{ posteBudgetaire.image | glossyBusinessImg }}"
+                             style="margin:-10px 10px 0px -10px;"
+                             width="24" height="24">
+                        {{ posteBudgetaire.nom | translate }}
+                    </uib-accordion-heading>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table width=100% st-table="posteBudgetaire.liste"
+                                   class="table table-bordered table-hover table-condensed">
+                                <tbody ng-if="showSousPosteBudgetaire">
+                                <tr ng-repeat="sousPosteBudgetaire in posteBudgetaire.liste | orderBy:'nom | translate':false:ctrl.localeSensitiveComparator track by sousPosteBudgetaire.id"
+                                    ng-click="toggleData(sousPosteBudgetaire)">
+                                    <td style="width:60px">
+                                        <img e-name="image" width="24" height="24"
+                                             ng-src="{{ ::sousPosteBudgetaire.image | glossyBusinessImg }}">
+                                    </td>
+                                    <td style="width:100%">{{ sousPosteBudgetaire.nom | translate }}</td>
+                                    <td style="width:25px">
+                                        <i ng-if="!liste.temporaire.includes(sousPosteBudgetaire)" class="fa fa-square-o" aria-hidden="true"></i>
+                                        <i ng-if="liste.temporaire.includes(sousPosteBudgetaire)" class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </div>
+        </uib-accordion>
+    </div>
+
+    <!-- colonne de centre -->
+    <div class="flex-divider m-v-24 m-h-40">
+        <button ng-attr-type="button" class="btn btn-primary btn-icon icon-centre-on-separator" ng-click="appliquerSelection()">
+            <i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- colonne de droite -->
+    <div class="flex-100">
+        <div class="p-8 m-v-8" style="font-size: 20px; color: #666666">
+            {{'ECRAN.ASSISTANT.COMPTES_TITRE_SECTION_DROITE' | translate}}
+        </div>
+        <uib-accordion style="margin-top:10px;" ng-repeat="posteBudgetaire in liste.selected">
+            <div>
+                <uib-accordion-group is-open="true" panel-class="bootstrap-panel accordion-panel panel-default">
+                    <uib-accordion-heading>
+                        <img ng-src="{{ posteBudgetaire.image | glossyBusinessImg }}"
+                             style="margin:-10px 10px 0px -10px;"
+                             width="24" height="24">
+                        {{ ::posteBudgetaire.nom | translate }}
+                    </uib-accordion-heading>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table width=100% st-table="posteBudgetaire.liste"
+                                   class="table table-bordered table-hover table-condensed">
+                                <tbody ng-if="showSousPosteBudgetaire">
+                                <tr ng-repeat="sousPosteBudgetaire in posteBudgetaire.liste track by sousPosteBudgetaire.uuid">
+                                    <td style="width:60px">
+                                        <img e-name="image" width="24" height="24"
+                                             ng-src="{{ ::sousPosteBudgetaire.image | glossyBusinessImg }}">
+                                    </td>
+                                    <td style="width:80%">{{ ::sousPosteBudgetaire.nom | translate }}</td>
+                                    <td style="width:40px; min-width: 40px;">
+                                        <img ng-if="sousPosteBudgetaire.idSousPosteBudgetaireRegle" e-name="image" width="24" height="24"
+                                             ng-src="{{ 'Apply' | glossyBusinessImg }}">
+                                    </td>
+                                    <td style="width:5%">
+                                        <div class="flex-row">
+                                            <button ng-attr-type="button" class="btn-fa-fa-button"
+                                                    ng-click="majData(posteBudgetaire,sousPosteBudgetaire)">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                            <button ng-attr-type="button" class="btn-fa-fa-button"
+                                                    ng-click="deleteData(posteBudgetaire,sousPosteBudgetaire)">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </div>
+        </uib-accordion>
+    </div>
+    <div class="flex-10">
+        <nav mfb-menu position="br" effect="zoomin" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION' | translate }}"
+             active-icon="ion-plus-round" resting-icon="ion-plus-round"
+             main-action="ajouterData()"
+             toggling-method="hover" style="right: 20px;bottom: 115px;">
+        </nav>
+    </div>
+</div>

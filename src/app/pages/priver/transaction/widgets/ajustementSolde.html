@@ -1,0 +1,63 @@
+<form name="ajustementForm" novalidate
+      ng-submit="submitForm(ajustementForm.$valid, ajustementForm.$pristine, ajustementForm.$dirty, ajustementForm.$untouched)">
+  <div class="modal-body" style="padding: 0px 20px 30px 20px;">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': ajustementForm.dateDebut.$invalid && (ajustementForm.dateDebut.$touched || ajustementForm.$submitted)}">
+          <label for="inputDateAjustement" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.AJUSTEMENT_DATE' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group"
+                 style="margin-bottom: 0px;"
+                 moment-picker="newRegleAjustement.dateDebut"
+                 format="YYYY-MM-DD"
+                 min-view="month"
+                 max-view="month"
+                 today="true"
+                 start-date="dateDepartPicker"
+                 locale={{initialLocaleCode}}>
+              <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut" ng-model="newRegleAjustement.dateDebut" ng-model-options="{ updateOn: 'blur' }" required>
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="ajustementForm.dateDebut.$error" ng-if="ajustementForm.dateDebut.$invalid && (ajustementForm.dateDebut.$touched || ajustementForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              <p ng-message="erreurDateBudget">{{ 'GLOBALE.AIDE.DATE_DEBUT_BUDGET' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback" style="margin-bottom: 0px;"
+             ng-class="{'has-error': ajustementForm.montant.$invalid && (ajustementForm.montant.$touched || ajustementForm.$submitted)}">
+          <label for="inputMontantAjustement" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.AJUSTEMENT_MONTANT' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montant" ng-model="newRegleAjustement.montant" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+              <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="ajustementForm.montant.$error" ng-if="ajustementForm.montant.$invalid && (ajustementForm.montant.$touched || ajustementForm.$submitted)">
+              <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <span style="padding-bottom:20px;"></span>
+  </div>
+  <div class="modal-footer" ng-switch on="creation">
+    <div ng-switch-when="false">
+      <button class="btn btn-primary" ng-attr-type="submit" ng-show="okButton">{{okButton}}</button>
+      <button class="btn btn-danger"  ng-attr-type="button" ng-show="deleteButton" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprime()" confirm-click>{{deleteButton}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-show="cancelButton" ng-click="cancel()">{{cancelButton}}</button>
+    </div>
+    <div ng-switch-when="true">
+      <button class="btn btn-primary" ng-attr-type="submit" ng-show="okButton">{{okButton}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-show="cancelButton" ng-click="cancel()">{{cancelButton}}</button>
+    </div>
+  </div>
+</form>

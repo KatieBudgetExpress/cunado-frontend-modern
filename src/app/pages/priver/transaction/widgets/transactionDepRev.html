@@ -1,0 +1,393 @@
+<form name="transactionForm" novalidate
+      ng-submit="submitForm(transactionForm.$valid, transactionForm.$pristine, transactionForm.$dirty, transactionForm.$untouched)">
+  <div ng-if="ctrlLoaded" class="modal-body" style="padding: 15px 20px 30px 20px;">
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': sousPosteBudgetaireInvalide() && (transactionForm.sousPosteBudgetaire.$touched || transactionForm.$submitted)}">
+          <label for="selectSousPosteBudgetaire" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.SOUS_POSTE_BUDG' | translate }}</label>
+          <div class="col-sm-8">
+            <div class="input-group" style="table-layout: fixed; margin-bottom: 0px;">
+              <select class="form-control" name="sousPosteBudgetaire" title="" ng-disabled="sousPosteBudgetaireInactif" ng-change="majSousPoste()" ng-model="sousPosteBudgetaireSelected" ng-options="sousPoste as sousPoste.nom | translate group by sousPoste.nomPosteBudgetaire | translate for sousPoste in listeLovSousPosteBudgetaire | orderBy:'nom | translate':false:localeSensitiveComparator | orderBy:'nomPosteBudgetaire | translate':false:localeSensitiveComparator track by sousPoste.id" selectpicker ng-required="true" required></select>
+              <span class="input-group-btn" style="width: 22%;">
+                <button class="btn btn-primary" style="width: 100%;" ng-disabled="sousPosteBudgetaireInactif" ng-attr-type="button" ng-click="ajoutSousPoste()">{{ 'GLOBALE.BOUTON.NOUVEAU' | translate }}</button>
+              </span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionForm.sousPosteBudgetaire.$error" ng-if="sousPosteBudgetaireInvalide() && (transactionForm.sousPosteBudgetaire.$touched || transactionForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div ng-switch on="typeImageSelect" ng-if="imageSelect">
+           <a ng-switch-when="glossy" href="" uib-tooltip="{{ 'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaireSelected)">
+             <img id="imgSousPosteTrs" name="imgSousPosteTrs" ng-src="{{ imageSelect | glossyBusinessImg }}" style="width:24px; height:24px; margin-top: 5px; margin-left: -5px;" width="24" height="24">
+           </a>
+           <a ng-switch-default name="image" href="" uib-tooltip="{{ 'GLOBALE.TOOLTIP.MODIFIER_IMAGE' | translate }}" ng-click="modifierImage(sousPosteBudgetaireSelected)">...</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback">
+          <label for="textareaDescription" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DESCRIPTION' | translate }}</label>
+          <div class="col-sm-8">
+            <textarea  class="form-control" name="description" ng-model="regle.description"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': transactionForm.montant.$invalid && (transactionForm.montant.$touched || transactionForm.$submitted)}">
+          <label for="inputMontant" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.MONTANT' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montant" ng-model="regle.montant" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+              <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="transactionForm.montant.$error" ng-if="transactionForm.montant.$invalid && (transactionForm.montant.$touched || transactionForm.$submitted)">
+              <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+            </span>
+          </div>
+<!--
+          <label for="switchProlonger" class="col-sm-2 control-label" style="margin-left: -10px;">{{ 'ECRAN.TRANSACTION.PROLONGER' | translate }}</label>
+          <div class="col-sm-2">
+            <switch color="primary" name="prolonger" style="margin-left: -10px;" ng-model="switcherRegle.prolonger" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+          </div>
+-->
+        </div>
+      </div>
+    </div>
+
+    <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.FREQUENCE' | translate }}</h3>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': periodiciteInvalide() && (transactionForm.periodicite.$touched || transactionForm.$submitted)}">
+          <label for="selectPeriodicite" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.CHOISIR' | translate }}</label>
+          <div class="col-sm-4">
+            <select class="form-control" name="periodicite" title="" ng-model="periodiciteSelected" ng-options="periodicite.corresp | translate for periodicite in periodiciteOptions track by periodicite.id" selectpicker required></select>
+            <span class="help-block error-block basic-block" ng-messages="transactionForm.periodicite.$error" ng-if="periodiciteInvalide() && (transactionForm.periodicite.$touched || transactionForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-switch on="periodiciteSelected.code" >
+
+      <div ng-switch-when="QUELQUESFOIS">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': arrayDeDatesInvalide() && (transactionForm.arrayDeDates.$touched || transactionForm.$submitted)}">
+              <label class="col-sm-4 control-label" style="line-height: 17px;">{{ 'ECRAN.TRANSACTION.CHOISIR_DATE' | translate }}</label>
+              <div class="col-sm-8">
+                  <multiple-date-picker ng-click="arrayDeDatesClick()" ng-model="arrayDeDates" name="arrayDeDates" sunday-first-day="true" required></multiple-date-picker>
+                  <span class="help-block error-block basic-block" ng-messages="transactionForm.arrayDeDates.$error" ng-if="arrayDeDatesInvalide() && (transactionForm.arrayDeDates.$touched || transactionForm.$submitted)">
+                    <p ng-message when="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                  </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <table style="margin-top: 51px;">
+              <tr ng-repeat='d in arrayDeDates | orderBy' style="line-height: 36px;">
+                <td style="width:5%"><i class="fa fa-times-circle" style='margin:5px' ng-click='supprimeDateSelection(d)'></i></td>
+                <td style="width:35%">{{d.format('YYYY-MM-DD')}}</td>
+                <td style="width:60%">
+                    <div class="input-group" style="margin-bottom: 0px;">
+                      <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" ng-model="montantQqfois[d.format('YYYY-MM-DD')]" ng-init="montantQqfois[d.format('YYYY-MM-DD')]=getMontant(regle.montant,d.format('YYYY-MM-DD'))" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                      <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+                    </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div ng-switch-when="BIMENSUEL">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback">
+              <label for="inputDateDebut" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_DEBUT' | translate }}</label>
+              <div class="col-sm-4"
+                   ng-class="{'has-error': transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)}">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="regle.dateDebut"
+                     start-date="dateDepartPicker"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut" ng-model="regle.dateDebut" ng-model-options="{ updateOn: 'blur' }" required>
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.dateDebut.$error" ng-if="transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)">
+                  <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                  <p ng-message="erreurDateBudget">{{ 'GLOBALE.AIDE.DATE_DEBUT_BUDGET' | translate }}</p>
+                </span>
+              </div>
+              <div class="form-group row clearfix has-feedback"
+                   style="margin-bottom: 0px;">
+                 <label for="selectJourUn" class="col-sm-1 control-label" style="margin-left: -10px;">{{ 'ECRAN.TRANSACTION.LE' | translate }}</label>
+                 <div class="col-sm-3"
+                      ng-class="{'has-error': jourUnInvalide() && (transactionForm.jourUn.$touched || transactionForm.$submitted)}">
+                   <select class="form-control" name="jourUn" title="" ng-model="jourUnSelected" ng-options="j.corresp | translate for j in jourMoisOptions track by j.id" selectpicker ng-required="true" required></select>
+                   <span class="help-block error-block basic-block" ng-messages="transactionForm.jourUn.$error" ng-if="jourUnInvalide() && (transactionForm.jourUn.$touched || transactionForm.$submitted)">
+                     <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': transactionForm.dateFin.$invalid && (transactionForm.dateFin.$touched || transactionForm.$submitted)}">
+              <label for="inputDateFin" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_FIN' | translate }}</label>
+              <div class="col-sm-4">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="regle.dateFin"
+                     start-date="dateDepartPicker"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateFin" ng-model="regle.dateFin" ng-model-options="{ updateOn: 'blur' }">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.dateFin.$error" ng-if="transactionForm.dateFin.$invalid && (transactionForm.dateFin.$touched || transactionForm.$submitted)">
+                  <p ng-message="erreurDate">{{ 'GLOBALE.AIDE.DATE_DEBUT_FIN' | translate }}</p>
+                </span>
+               </div>
+               <div class="form-group row clearfix has-feedback"
+                    style="margin-bottom: 0px;"
+                    ng-class="{'has-error': jourDeuxInvalide() && (transactionForm.jourDeux.$touched || transactionForm.$submitted)}">
+                 <label for="selectJourDeux" class="col-sm-1 control-label" style="margin-left: -10px;">{{ 'ECRAN.TRANSACTION.ET_LE' | translate }}</label>
+                 <div class="col-sm-3">
+                   <select class="form-control" name="jourDeux" title="" ng-model="jourDeuxSelected" ng-options="j.corresp | translate for j in jourMoisOptions track by j.id" selectpicker required></select>
+                   <span class="help-block error-block basic-block" ng-messages="transactionForm.jourDeux.$error" ng-if="jourDeuxInvalide() && (transactionForm.jourDeux.$touched || transactionForm.$submitted)">
+                     <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                   </span>
+                 </div>
+               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback">
+              <label for="switchToujours" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.POUR_TOUJOURS' | translate }}</label>
+              <div class="col-sm-4" class="switches clearfix">
+                <switch next-focus color="primary" ng-model="switcherRegle.toujours" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-switch on="switcherRegle.toujours" >
+          <div ng-switch-when="false">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group row clearfix has-feedback"
+                     ng-class="{'has-error': transactionForm.nombreVersement.$invalid && (transactionForm.nombreVersement.$touched || transactionForm.$submitted)}">
+                  <label for="inputNombreVersement" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.NOMBRE_VERSEMENT' | translate }}</label>
+                  <div class="col-sm-4">
+                    <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control" name="nombreVersement" ng-model="regle.nombreVersement" ng-pattern=/^[0-9]{1,6}$/ min="1" step="1" required></input>
+                    <span class="help-block error-block basic-block" ng-messages="transactionForm.nombreVersement.$error" ng-if="transactionForm.nombreVersement.$invalid && (transactionForm.nombreVersement.$touched || transactionForm.$submitted)">
+                      <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_NOMBRE_>1' | translate }}</p>
+                    </span>
+                  </div>
+                  <label class="col-sm-2 control-label" style="text-align: left; margin-left: -20px;">{{ 'ECRAN.TRANSACTION.VERSEMENT' | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--
+        UNE SEULE FOIS
+      -->
+      <div ng-switch-when="UNEFOIS">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)}">
+              <label for="inputDateDebut" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_UNIQUE' | translate }}</label>
+              <div class="col-sm-4">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="regle.dateDebut"
+                     start-date="dateDepartPicker"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut" ng-model="regle.dateDebut" ng-model-options="{ updateOn: 'blur' }" required>
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.dateDebut.$error" ng-if="transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)">
+                  <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                  <p ng-message="erreurDateBudget">{{ 'GLOBALE.AIDE.DATE_DEBUT_BUDGET' | translate }}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--
+        DÉFAUT: MENSUEL SEMAINE JOUR ANNEE
+      -->
+      <div ng-switch-default>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': transactionForm.uniteFrequence.$invalid && (transactionForm.uniteFrequence.$touched || transactionForm.$submitted)}">
+              <label for="inputUniteFrequence" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.UNITE_FREQUENCE' | translate }}</label>
+              <div class="col-sm-4">
+                <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control" name="uniteFrequence" ng-model="regle.uniteFrequence" ng-pattern=/^[0-9]{1,6}$/ min="1" step="1" required></input>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.uniteFrequence.$error" ng-if="transactionForm.uniteFrequence.$invalid && (transactionForm.uniteFrequence.$touched || transactionForm.$submitted)">
+                  <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_NOMBRE_>1' | translate }}</p>
+                </span>
+              </div>
+              <label class="col-sm-2 control-label" style="text-align: left; margin-left: -20px;">{{ periodiciteSelected.corresp | translate }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)}">
+              <label for="inputDateDebut" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_DEBUT' | translate }}</label>
+              <div class="col-sm-4">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="regle.dateDebut"
+                     start-date="dateDepartPicker"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut" ng-model="regle.dateDebut" ng-model-options="{ updateOn: 'blur' }" required>
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.dateDebut.$error" ng-if="transactionForm.dateDebut.$invalid && (transactionForm.dateDebut.$touched || transactionForm.$submitted)">
+                  <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                  <p ng-message="erreurDateBudget">{{ 'GLOBALE.AIDE.DATE_DEBUT_BUDGET' | translate }}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback"
+                 ng-class="{'has-error': transactionForm.dateFin.$invalid && (transactionForm.dateFin.$touched || transactionForm.$submitted)}">
+              <label for="inputDateFin" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DATE_FIN' | translate }}</label>
+              <div class="col-sm-4">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="regle.dateFin"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     start-date="dateDepartPicker"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateFin" ng-model="regle.dateFin" ng-model-options="{ updateOn: 'blur' }">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block" ng-messages="transactionForm.dateFin.$error" ng-if="transactionForm.dateFin.$invalid && (transactionForm.dateFin.$touched || transactionForm.$submitted)">
+                  <p ng-message="erreurDate">{{ 'GLOBALE.AIDE.DATE_DEBUT_FIN' | translate }}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group row clearfix has-feedback">
+              <label for="switchToujours" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.POUR_TOUJOURS' | translate }}</label>
+              <div class="col-sm-4" class="switches clearfix">
+                <switch next-focus color="primary" name="toujours" ng-model="switcherRegle.toujours" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-switch on="switcherRegle.toujours" >
+          <div ng-switch-when="false">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group row clearfix has-feedback"
+                     ng-class="{'has-error': transactionForm.nombreVersement.$invalid && (transactionForm.nombreVersement.$touched || transactionForm.$submitted)}">
+                  <label for="inputNombreVersement" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.NOMBRE_VERSEMENT' | translate }}</label>
+                  <div class="col-sm-4">
+                    <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control" name="nombreVersement" ng-model="regle.nombreVersement" ng-pattern=/^[0-9]{1,6}$/ min="1" step="1" required></input>
+                    <span class="help-block error-block basic-block" ng-messages="transactionForm.nombreVersement.$error" ng-if="transactionForm.nombreVersement.$invalid && (transactionForm.nombreVersement.$touched || transactionForm.$submitted)">
+                      <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_NOMBRE_>1' | translate }}</p>
+                    </span>
+                  </div>
+                  <label class="col-sm-2 control-label" style="text-align: left; margin-left: -20px;">{{ 'ECRAN.TRANSACTION.VERSEMENT' | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.IMPACT' | translate }}</h3>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group row clearfix has-feedback">
+            <label for="selectPeriodicite" class="col-sm-4 control-label">{{ parCompte }}</label>
+            <div class="col-sm-8">
+              <select class="form-control" name="compte" title="" ng-model="compteSelected" ng-options="compte as compte.nomSousPosteBudgetaireLov | translate group by compte.nomCategorie | translate for compte in compteOptions | orderBy:'nom | translate':false:localeSensitiveComparator | orderBy:'nomCategorie | translate':false:localeSensitiveComparator track by compte.id" selectpicker></select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-switch on="creation" >
+        <div ng-switch-when="0">
+          <div ng-switch on="assistant" >
+            <div ng-switch-when="false">
+              <div ng-switch on="exception" >
+                <div ng-switch-when="1">
+                  <h3 class="with-line" style="padding-top: 0px;">{{ 'ECRAN.TRANSACTION.EXCEPTION' | translate }}</h3>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div ng-include="'app/pages/priver/transaction/exception.html'"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span style="padding-bottom:20px;"></span>
+  </div>
+  <div class="modal-footer">
+    <div ng-if="enregistrer" >
+      <button class="btn btn-primary" ng-attr-type="submit" ng-show="boutonEnregistrer">{{boutonEnregistrer}}</button>
+      <button class="btn btn-danger"  ng-attr-type="button" ng-if="!assistant" ng-click="confirmClick(ccSujet,'warning',ccBtnOui,ccBtnNon,ccMessage) && supprimer()" ng-show="boutonSupprimer" confirm-click>{{boutonSupprimer}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-click="annuler()" ng-show="boutonAnnuler">{{boutonAnnuler}}</button>
+    <div>
+    <div ng-if="!enregistrer">
+      <button class="btn btn-primary" ng-attr-type="button" ng-click="suivant(transactionForm.$valid)" ng-show="boutonSuivant">{{boutonSuivant}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-click="annuler()" ng-show="boutonAnnuler">{{boutonAnnuler}}</button>
+    <div>
+  </div>
+</form>

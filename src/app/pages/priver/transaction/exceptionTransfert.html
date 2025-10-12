@@ -1,0 +1,13 @@
+<div class="row" ng-controller="TransactionExceptionTransfertCtrl">
+  <div class="col-md-12">
+    <div class="btn-group btn-group-tag" ng-repeat="item in regleExceptions | orderBy:'dateRegle':true">
+      <button ng-attr-type="button" class="btn btn-primary btn-tag-gauche" uib-tooltip-html="'{{'ECRAN.TRANSACTION.EXCEPTION_EFFECTIVE'| translate }}' + '<br>' + '{{item.dateTooltip}}'" ng-click="modifierException(item)" >{{item.dateRegle}}</button>
+      <button ng-attr-type="button" class="btn btn-primary btn-tag-droite" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimerException(item)" confirm-click>
+        <i class="ion-android-close-tag"></i>
+      </button>
+    </div>
+    <button ng-attr-type="button" class="btn btn-default btn-icon-tag" ng-click="creerException()" >
+      <i class="ion-android-add"></i>
+    </button>
+  </div>
+</div>

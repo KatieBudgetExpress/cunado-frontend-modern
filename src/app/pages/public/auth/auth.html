@@ -1,0 +1,39 @@
+<div class="auth">
+    <div class="auth-main">
+        <div class="auth-block">
+          <center>
+            <img ng-src="{{ picture }}" id="logoRapport" style="margin-bottom: 10px;"
+               ng-style="{ width : 80, height : 80 }">
+            <h1>BudgetExpress</h1>
+          </center>
+          <hr><br>
+          <form name="authForm" class="form-horizontal" novalidate>
+              <div class="form-group has-feedback"
+                   ng-class="{'has-error': authForm.courriel.$invalid && (authForm.courriel.$touched || authForm.$submitted)}">
+                  <div class="col-sm-12">
+                      <input ng-attr-type="email" name="courriel" ng-model="vm.email" class="form-control" style="background-color: #a7926d" id="inputEmail3" ng-attr-placeholder="{{vm.lblCourriel}}" required>
+                      <span class="help-block error-block basic-block" ng-messages="authForm.courriel.$error" ng-if="authForm.courriel.$invalid && (authForm.courriel.$touched || authForm.$submitted)">
+                        <p ng-message="required">{{ 'GLOBALE.AIDE.COURRIEL_REQUIS' | translate }}</p>
+                      </span>
+                  </div>
+              </div>
+              <div class="form-group has-feedback"
+                   ng-class="{'has-error': authForm.pwd.$invalid && (authForm.pwd.$touched || authForm.$submitted)}">
+                  <div class="col-sm-12">
+                      <input ng-attr-type="password" name="pwd" ng-model="vm.password" class="form-control" style="background-color: #a7926d" id="inputPassword3" ng-attr-placeholder="{{vm.lblMotPasse}}" required>
+                      <span class="help-block error-block basic-block" ng-messages="authForm.pwd.$error" ng-if="authForm.pwd.$invalid && (authForm.pwd.$touched || authForm.$submitted)">
+                        <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                      </span>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-12">
+                      <button ng-attr-type="submit" ng-click="vm.submit()" class="btn btn-default btn-auth" style="background-color: #406bb9;">{{vm.lblBouton}}</button>
+                  </div>
+              </div>
+              <br><br>
+              <a href class="forgot-pass" ng-click="vm.mpOublie()">{{vm.lblMotPasseOublie}}</a>
+          </form>
+        </div>
+    </div>
+</div>

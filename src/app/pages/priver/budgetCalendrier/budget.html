@@ -1,0 +1,137 @@
+<!--
+ * @author S.Lizotte
+ *
+-->
+<div class="row">
+  <div class="col-md-12"
+       ba-panel
+       ba-panel-class="feed-comply-panel with-scroll calendar-panel">
+    <center style="position: absolute; width: 175px; left: calc(50% - 175px / 2); cursor: pointer;">
+      <div>
+        <div uib-dropdown on-toggle="toggledRangeDate(open)" is-open="isopen">
+
+          <div ng-attr-type="button" uib-dropdown-toggle class="fc-toolbar h2" style="font-size: 24px; margin-left: -18px; margin-top: 10px;">
+            {{getTitreMonth()}}
+          </div>
+          <ul id="listdate" class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button" style="max-height: 175px; overflow-x: auto;">
+            <div ng-repeat="year in getRangeDate()" class="calendar-panel-ul">
+              <div id="{{::year}}" style="padding: 12px; font-weight: 500;font-size: 18px;"><i class="ion-android-calendar" style="padding-right: 8px;"></i>{{::year}}</div>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-01-01')">{{ 'GLOBALE.MOIS_COMPLET.JANVIER' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-02-01')">{{ 'GLOBALE.MOIS_COMPLET.FEVRIER' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-03-01')">{{ 'GLOBALE.MOIS_COMPLET.MARS' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-04-01')">{{ 'GLOBALE.MOIS_COMPLET.AVRIL' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-05-01')">{{ 'GLOBALE.MOIS_COMPLET.MAI' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-06-01')">{{ 'GLOBALE.MOIS_COMPLET.JUIN' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-07-01')">{{ 'GLOBALE.MOIS_COMPLET.JUILLET' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-08-01')">{{ 'GLOBALE.MOIS_COMPLET.AOUT' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-09-01')">{{ 'GLOBALE.MOIS_COMPLET.SEPTEMBRE' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-10-01')">{{ 'GLOBALE.MOIS_COMPLET.OCTOBRE' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-11-01')">{{ 'GLOBALE.MOIS_COMPLET.NOVEMBRE' | translate}}</a></li>
+              <li role="menuitem"><a ng-click="setDateCalendar(year+'-12-01')">{{ 'GLOBALE.MOIS_COMPLET.DECEMBRE' | translate}}</a></li>
+              <li class="divider"></li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </center>
+    <budget-calendar></budget-calendar>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 cu-budget-panel-stats"
+       ba-panel
+       ba-panel-class="with-scroll horizontal-tabs tabs-panel"
+       style="margin-bottom: 20px;">
+    <uib-tabset>
+      <uib-tab flex heading="{{tabLibelleJour}}">
+        <uib-accordion style="margin-bottom: 0px !important;">
+          <div style="margin-bottom: 10px;" ng-repeat="poste in postesSolde | orderBy:'tri'">
+            <uib-accordion-group is-open="openIndexJour[$index]" panel-class="bootstrap-panel accordion-panel panel-default">
+              <uib-accordion-heading>
+                <span style="font-size: 13px;">{{ poste.nom | translate }}</span>
+<!--
+                <div class="pull-right btn-group btn-group-xs">
+                  <button class="btn btn-default btn-xs" ng-click="$event.stopPropagation();$event.preventDefault();ajusterSolde(poste)" uib-tooltip="{{ 'GLOBALE.TOOLTIP.AJUSTER_SOLDE' | translate }}" >&nbsp;<i class="ion-android-more-vertical"></i>&nbsp;</button>
+                </div>
+-->
+              </uib-accordion-heading>
+              <div class="row" style="margin-right: 0px;">
+                <div class="col-md-12" style="padding-right: 0px;">
+                  <table style="width:97%; margin-left: 5px;line-height: 20px; border-top: 1px solid gainsboro;">
+                    <tbody>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.SOLDE_REPORTE' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.soldeOuvJour }}</td>
+                    </tr>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.VARIATION' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.variationJour }}</td>
+                    </tr>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.SOLDE_FERMETURE' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.soldeFerJour }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+             </uib-accordion-group>
+           </div>
+         </uib-accordion>
+      </uib-tab>
+      <uib-tab heading="{{tabLibelleMois}}">
+        <uib-accordion>
+          <div style="margin-bottom: 10px;" ng-repeat="poste in postesSolde | orderBy:'tri'">
+            <uib-accordion-group is-open="openIndexMois[$index]" panel-class="bootstrap-panel accordion-panel panel-default">
+              <uib-accordion-heading>
+                <span style="font-size: 13px;">{{ poste.nom | translate }}</span>
+<!--
+                <div class="pull-right btn-group btn-group-xs">
+                  <button class="btn btn-default btn-xs" ng-click="$event.stopPropagation();$event.preventDefault();ajusterSolde(poste)" uib-tooltip="{{ 'GLOBALE.TOOLTIP.AJUSTER_SOLDE' | translate }}" >&nbsp;<i class="ion-android-more-vertical"></i>&nbsp;</button>
+                </div>
+-->
+              </uib-accordion-heading>
+              <div class="row" style="margin-right: 0px;">
+                <div class="col-md-12" style="padding-right: 0px;">
+                  <table style="width:97%; margin-left: 5px;line-height: 20px; border-top: 1px solid gainsboro;">
+                    <tbody>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.SOLDE_REPORTE' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.soldeOuvMois }}</td>
+                    </tr>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.VARIATION' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.variationMois }}</td>
+                    </tr>
+                    <tr style="border-top: 1px solid gainsboro;">
+                      <td style="width:50%; text-align: left;" ng-class="nowrap">{{ 'ECRAN.CALENDRIER.SOLDE_FERMETURE' | translate}}</td>
+                      <td align="right" style="width:50%" ng-class="nowrap">{{ poste.soldeFerMois }}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+             </uib-accordion-group>
+           </div>
+         </uib-accordion>
+      </uib-tab>
+    </uib-tabset>
+  </div>
+  <div class="col-md-9">
+    <div ba-panel ba-panel-class="with-scroll">
+      <nvd3 id='fluxChart' options='optionsFlux' data='dataFlux' config="{objectEquality: true}"></nvd3>
+    </div>
+  </div>
+</div>
+<nav mfb-menu position="br" effect="zoomin" style="margin: 40px;"
+     active-icon="ion-close-round" resting-icon="ion-plus-round"
+     toggling-method="click">
+
+     <button mfb-button bgcolor='#015562' icon="ion-plus-round" ng-click="ajoutTransaction('REV')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_REVENU' | translate }}"></button>
+     <button mfb-button bgcolor='#191970' icon="ion-plus-round" ng-click="ajoutTransaction('DEP')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_DEPENSE' | translate }}"></button>
+     <button mfb-button bgcolor='#36878F' icon="ion-plus-round" ng-click="ajoutTransaction('CPT')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_COMPTE' | translate }}"></button>
+     <button mfb-button bgcolor='#DD4B39' icon="ion-plus-round" ng-click="ajoutTransaction('CRE')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_CREDIT' | translate }}"></button>
+     <button mfb-button bgcolor='#90B900' icon="ion-plus-round" ng-click="ajoutTransaction('EPA')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_EPARGNE' | translate }}"></button>
+     <button mfb-button bgcolor='#805BBB' icon="ion-plus-round" ng-click="ajoutTransaction('PRE')" label="{{ 'GLOBALE.TOOLTIP.AJOUTER_TRANSACTION_PRET' | translate }}"></button>
+     <button mfb-button bgcolor='#DBD00D' icon="ion-plus-round" ng-click="ajoutAjustement()"       label="{{ 'GLOBALE.TOOLTIP.AJOUTER_AJUSTEMENT' | translate }}"></button>
+</nav>

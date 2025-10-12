@@ -1,0 +1,28 @@
+<div class="row" ng-controller="TransactionTransfertCtrl">
+  <div class="col-md-12">
+    <div class="add-row-editable-table">
+      <button class="btn btn-primary" ng-attr-type="button" ng-click="ajoutTransfert()">{{ 'GLOBALE.BOUTON.AJOUTER' | translate }}</button>
+    </div>
+    <table st-table="affRegleTransfertComptes" st-safe-src="regleTransfertComptes" class="table table-bordered table-hover table-condensed">
+      <thead>
+          <tr class="sortable" style="font-weight: bold">
+            <th style="width:30%; text-align: left;" st-sort="trierAccent.descriptionDe">{{ 'ECRAN.TRANSACTION.TRANSFERT_DE' | translate }}</th>
+            <th style="width:30%; text-align: left;" st-sort="trierAccent.descriptionVers">{{ 'ECRAN.TRANSACTION.TRANSFERT_VERS' | translate }}</th>
+            <th style="width:x; text-align: right;" st-sort="montant" st-sort-default="reverse">{{ 'ECRAN.TRANSACTION.TRANSFERT_MONTANT' | translate }}</th>
+            <th style="width:170px"></th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="regleTransfertCompte in affRegleTransfertComptes">
+          <td style="text-align: left;">{{ regleTransfertCompte.descriptionDe  | translate }}</td>
+          <td style="text-align: left;">{{ regleTransfertCompte.descriptionVers | translate }}</td>
+          <td class="align-right">{{ regleTransfertCompte.montantAff }}</td>
+          <td>
+             <button ng-attr-type="button" class="btn btn-primary editable-table-button btn-xs" ng-click="modifierTransfert(regleTransfertCompte)">{{ 'GLOBALE.BOUTON.MODIFIER' | translate }}</button>
+             <button ng-attr-type="button" class="btn btn-danger editable-table-button btn-xs" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprimeTransfert(regleTransfertCompte)" confirm-click>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<!--
+ * @author S.Lizotte
+ *
+ * Libellé aligné à gauche: profile-page
+ * Libellé aligné à droite: form-horizontal
+-->
+<div ba-panel ba-panel-class="form-horizontal">
+    <form name="vm.profilForm" novalidate
+          ng-submit="submitForm(vm.profilForm.$valid, vm.profilForm.$pristine, vm.profilForm.$dirty, vm.profilForm.$untouched)">
+        <div ng-include="'app/pages/priver/profile/widgets/profil.html'"></div>
+        <div>
+          <button ng-attr-type="submit" class="btn btn-primary btn-with-icon save-profile">
+             <i class="ion-android-checkmark-circle"></i>{{ 'GLOBALE.BOUTON.BOUAPPLIQUER' | translate }}
+          </button>
+        </div>
+    </form>
+</div>
+
+<!--
+<nav mfb-menu position="br"
+     effect="zoomin"
+     active-icon="ion-close-round"
+     resting-icon="ion-plus-round"
+     style="margin: 40px;"
+     toggling-method="hover"
+     main-action="goToPageAssistant()"
+     label="{{ 'GLOBALE.TOOLTIP.AJOUTER_BUDGET' | translate }}">
+</nav>
+-->
+<nav mfb-menu position="br" effect="zoomin" active-icon="ion-close-round" resting-icon="ion-plus-round"
+     style="margin: 40px;" toggling-method="click" toggling-method="click">
+    <button mfb-button bgcolor='#015562' icon="ion-plus-round" ng-click="goToPageAssistant()"
+             label="{{ 'GLOBALE.TOOLTIP.AJOUTER_BUDGET' | translate }}">
+    </button>
+    <button mfb-button bgcolor='#0b6f7d' icon="fa fa-clone" ng-click="goToConversionCopieBudget()"
+            label="{{ 'GLOBALE.TOOLTIP.CONVERSION_DONNEE_OLD_NEW' | translate }}">
+    </button>
+    <button mfb-button bgcolor='#015562' icon="fa fa-lock" ng-click="goToMotPasse()"
+            label="{{ 'GLOBALE.AIDE.NOUVEAUMOTPASSE' | translate }}">
+    </button>
+    <button mfb-button bgcolor='#015562' icon="fa fa-shopping-cart" ng-click="goToAbonnement()"
+            label="{{ 'ECRAN.PROFIL.ABONNEMENT' | translate }}">
+    </button>
+
+</nav>

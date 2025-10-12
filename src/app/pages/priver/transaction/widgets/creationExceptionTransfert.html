@@ -1,0 +1,107 @@
+<form name="exceptionForm" novalidate
+      ng-submit="submitForm(exceptionForm.$valid, exceptionForm.$pristine, exceptionForm.$dirty, exceptionForm.$untouched)">
+  <div class="modal-body" style="padding: 0px 20px 30px 20px;">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback"
+             ng-class="{'has-error': exceptionForm.dateRegle.$invalid && (exceptionForm.nom.$touched || exceptionForm.$submitted)}">
+          <label for="inputDateRegle" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.EXCEPTION_REGLE' | translate }}</label>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <span class="input-group-addon addon-left input-group-addon-primary">
+                <a ng-if="creation" href="" style="color: #FFFFFF;" ng-click="datePrecedente(newRegleException.dateRegle)"><i class="fa fa-chevron-left"></i></a>
+                <a ng-if="!creation" style="color: #7DB1B6;"><i class="fa fa-chevron-left"></i></a>
+              </span>
+              <input next-focus style="padding-right: 0px;" ng-attr-type="text" class="form-control" name="dateRegle" ng-model="newRegleException.dateRegle" ng-disabled="true" required>
+              <span class="input-group-addon addon-right input-group-addon-primary">
+                <a ng-if="creation" href="" style="color: #FFFFFF;" ng-click="dateSuivante(newRegleException.dateRegle)"><i class="fa fa-chevron-right"></i></a>
+                <a ng-if="!creation" style="color: #7DB1B6;"><i class="fa fa-chevron-right"></i></a>
+              </span>
+            </div>
+            <span class="help-block error-block basic-block" ng-messages="exceptionForm.dateRegle.$error" ng-if="exceptionForm.dateRegle.$invalid && (exceptionForm.dateRegle.$touched || exceptionForm.$submitted)">
+              <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row clearfix has-feedback">
+          <label for="switchException" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.EXCEPTION_AUCUN' | translate }}</label>
+          <div class="col-sm-4" class="switches clearfix">
+            <switch next-focus color="primary" ng-model="switcherException.aucunVersement" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-switch on="switcherException.aucunVersement" >
+      <div ng-switch-when="false">
+
+        <div ng-switch on="typeTransfert === 'REMB'" >
+          <div class="row" ng-switch-when="true">
+            <div class="col-md-12">
+              <div class="form-group row clearfix has-feedback">
+                <label for="switchToujours" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.REMB_SOLDE' | translate }}</label>
+                <div class="col-sm-4" class="switches clearfix">
+                  <switch next-focus color="primary" ng-model="switcherException.solde" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" ng-if="!switcherException.solde">
+            <div class="col-md-12">
+              <div class="form-group row clearfix has-feedback" style="margin-bottom: 0px;">
+                <label for="inputMontantException" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.EXCEPTION_MONTANT' | translate }}</label>
+                <div class="col-sm-4">
+                  <div class="input-group">
+                    <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montantException" ng-model="newRegleException.montantException" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+                    <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group row clearfix has-feedback">
+              <label for="inputDateException" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.EXCEPTION_DATE' | translate }}</label>
+              <div class="col-sm-4">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="newRegleException.dateException"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>
+                  <input next-focus class="form-control" style="padding-right: 5px;" name="dateException" ng-model="newRegleException.dateException" ng-model-options="{ updateOn: 'blur' }">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span style="padding-bottom:20px;"></span>
+  </div>
+  <div class="modal-footer" ng-switch on="creation">
+    <div ng-switch-when="false">
+      <button class="btn btn-primary" ng-attr-type="submit" ng-show="okButton">{{okButton}}</button>
+      <button class="btn btn-danger"  ng-attr-type="button" ng-show="deleteButton" ng-click="confirmClick(affSupp,'warning',affSwitchOui,affSwitchNon,affAttention) && supprime()" confirm-click>{{deleteButton}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-show="cancelButton" ng-click="cancel()">{{cancelButton}}</button>
+    </div>
+    <div ng-switch-when="true">
+      <button class="btn btn-primary" ng-attr-type="submit" ng-show="okButton">{{okButton}}</button>
+      <button class="btn btn-default" ng-attr-type="button" ng-show="cancelButton" ng-click="cancel()">{{cancelButton}}</button>
+    </div>
+  </div>
+</form>

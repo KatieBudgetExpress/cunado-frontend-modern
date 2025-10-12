@@ -1,0 +1,25 @@
+<div class="widgets conciliation">
+    <div class="row">
+        <div class="col-md-12">
+            <div ba-panel ba-panel-class="with-scroll">
+                <ba-wizard action="vm.action()">
+                    <ba-wizard-step ba-title="{{ 'ECRAN.CONCILIATION.IMPORTATION' | translate }}"
+                                    form="vm.importFile">
+                        <div ng-include="'app/pages/priver/conciliation/etape1.html'"></div>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.CONCILIATION.ASSOCIATION' | translate }}"
+                                    form="vm.associationFrom">
+                        <div ng-form="vm.associationFrom" class="form-horizontal">
+                            <div ng-include="'app/pages/priver/conciliation/etape2.html'"></div>
+                        </div>
+                    </ba-wizard-step>
+                    <ba-wizard-step ba-title="{{ 'ECRAN.CONCILIATION.FIN' | translate }}" form="vm.finFrom">
+                        <div ng-form="vm.finFrom">
+                            <div ng-include="'app/pages/priver/conciliation/etape3.html'"></div>
+                        </div>
+                    </ba-wizard-step>
+                </ba-wizard>
+            </div>
+        </div>
+    </div>
+</div>

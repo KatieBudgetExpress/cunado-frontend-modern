@@ -1,0 +1,237 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <button ng-attr-type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+    <h3 class="modal-title-with-line">{{ 'ECRAN.PROFIL.PARAMBUDGET' | translate }}</h3>
+  </div>
+  <form name="budgetForm" novalidate
+        class="form-horizontal" ng-submit="submitForm(budgetForm.$valid, budgetForm.$pristine, budgetForm.$dirty, budgetForm.$untouched)">
+    <div class="modal-body">
+<!--
+      <h3 class="with-line-top-modal">{{ 'ECRAN.PROFIL.PARAMBUDGET' | translate }}
+        <a href="" ng-click="actionImporter()">
+          <i style='float: right; margin-top: 12px;'
+             class='fa fa-download fa-lg'
+             title="{{'ECRAN.PROFIL.EXPORTER' | translate }}"
+             ng-attr-type="file"
+             ngf-select="upload($file, $invalidFiles)"
+             accept=".bud"
+             ngf-pattern="'.bud'">
+          </i>
+        </a>
+        <a href="" ng-click="actionExporter()">
+          <i style='float: right; margin-top: 10px; margin-right: 5px;' class='fa fa-upload fa-lg' title="{{'ECRAN.PROFIL.IMPORTER' | translate }}"></i>
+        </a>
+      </h3>
+-->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row clearfix">
+            <label for="switchdefaut" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.ACTIF' | translate }}</label>
+            <div class="col-sm-8" class="switches clearfix">
+              <switch color="primary" name="budgetDefaut" ng-model="switcherBudgetActif.defaut" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row clearfix has-feedback"
+               ng-class="{'has-error': budgetForm.budgetNom.$invalid && (budgetForm.budgetNom.$touched || budgetForm.$submitted)}">
+            <label for="inputNomBudget" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.NOMBUDGET' | translate }}</label>
+            <div class="col-sm-4">
+              <input ng-attr-type="text" class="form-control" name="budgetNom" ng-model="budgetActif.nom" required>
+              <span class="help-block error-block basic-block" ng-messages="budgetForm.budgetNom.$error" ng-if="budgetForm.budgetNom.$invalid && (budgetForm.budgetNom.$touched || budgetForm.$submitted)">
+                <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row clearfix has-feedback"
+               ng-class="{'has-error': budgetForm.budgetDesc.$invalid && (budgetForm.budgetDesc.$touched || budgetForm.$submitted)}">
+            <label for="inputDescBudget" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.DESCBUDGET' | translate }}</label>
+            <div class="col-sm-8">
+              <input ng-attr-type="text" class="form-control" name="budgetDesc" ng-model="budgetActif.description" required>
+              <span class="help-block error-block basic-block" ng-messages="budgetForm.budgetDesc.$error" ng-if="budgetForm.budgetDesc.$invalid && (budgetForm.budgetDesc.$touched || budgetForm.$submitted)">
+                <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row clearfix has-feedback">
+            <label for="affDateBudget" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.DATEDEBUTBUDGET' | translate }}</label>
+            <div class="col-sm-4">
+              <input ng-attr-type="text" class="form-control" name="dateDebut" ng-model="budgetActif.dateDebut" ng-disabled="true">
+            </div>
+          </div>
+        </div>
+      </div>
+<!--
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group row clearfix">
+            <label for="switchproteger" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.ACTIVERMOTPASSE' | translate }}</label>
+            <div class="col-sm-8" class="switches clearfix">
+              <switch color="primary" ng-model="switcherBudgetActif.protege" ng-click="switchProtegerChange(switcherBudgetActif.protege)" checktext="{{ 'GLOBALE.SWITCH.OUI' | translate }}" unchecktext="{{ 'GLOBALE.SWITCH.NON' | translate }}"></switch>
+              <button ng-attr-type="button" class="btn btn-default btn-icon" ng-click="modifierMotPasse()" ng-if="switcherBudgetActif.protege && !!budgetActif.motPasse && !modifMP">
+                <i class="ion-android-create"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div ng-if="switcherBudgetActif.defaut && switcherBudgetActif.protege && budgetActif.motPasse && !modifMP">
+            <h3 class="with-line-top">{{ 'ECRAN.BUDGET.PARAMPWD' | translate }}</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row clearfix has-feedback"
+                         ng-class="{'has-error': budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted)}">
+                        <label for="inputValideAncienMotPasse" class="col-sm-3 control-label">
+                            {{'ECRAN.BUDGET.ACTPWD' | translate }}
+                        </label>
+                        <div class="col-sm-4">
+                            <input ng-attr-type="password" class="form-control" name="valideAncienMP" ng-model="valideAncienMP" match="budgetActif.motPasse" required>
+                            <span class="help-block error-block basic-block"
+                                  ng-messages="budgetForm.valideAncienMP.$error"
+                                  ng-if="budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted)">
+                                 <p ng-message="match">{{ 'GLOBALE.AIDE.MOTPASSEACTUELMATCH' | translate }}</p>
+                               </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div ng-switch on="switcherBudgetActif.protege" >
+         <div ng-switch-when="false">
+           <div ng-switch on="!!budgetActif.motPasse" >
+             <!- Demander le mot de passe actuel pour pouvoir désactiver la protection ->
+             <div ng-switch-when="true">
+               <h3 class="with-line-top">{{ 'ECRAN.BUDGET.PARAMPWD' | translate }}</h3>
+               <div class="row">
+                 <div class="col-md-12">
+                   <div class="form-group row clearfix has-feedback"
+                        ng-class="{'has-error': budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted)}">
+                     <label for="inputValideAncienMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.ACTPWD' | translate }}</label>
+                     <div class="col-sm-4">
+                       <input ng-attr-type="password" class="form-control" name="valideAncienMP" ng-model="valideAncienMP" match="budgetActif.motPasse" required>
+                       <span class="help-block error-block basic-block" ng-messages="budgetForm.valideAncienMP.$error" ng-if="budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted)">
+                         <p ng-message="match">{{ 'GLOBALE.AIDE.MOTPASSEACTUELMATCH' | translate }}</p>
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div ng-switch-when="true">
+           <div ng-switch on="!!budgetActif.motPasse" >
+             <!- Nouveau, Confirmation ->
+             <div ng-switch-when="false">
+               <h3 class="with-line-top">{{ 'ECRAN.BUDGET.PARAMPWD' | translate }}</h3>
+               <div class="row">
+                 <div class="col-md-12">
+                   <div class="form-group row clearfix has-feedback"
+                        ng-class="{'has-error': budgetForm.nouveauMotPasse.$invalid && (budgetForm.nouveauMotPasse.$touched || budgetForm.$submitted) && switcherBudgetActif.protege}">
+                     <label for="inputNouveauMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.NOUVPWD' | translate }}</label>
+                     <div class="col-sm-4">
+                       <input ng-attr-type="password" class="form-control" name="nouveauMotPasse" ng-model="nouveauMotPasse" required>
+                       <span class="help-block error-block basic-block" ng-messages="budgetForm.nouveauMotPasse.$error" ng-if="budgetForm.nouveauMotPasse.$invalid && (budgetForm.nouveauMotPasse.$touched || budgetForm.$submitted) && switcherBudgetActif.protege">
+                         <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               <div class="row">
+                 <div class="col-md-12">
+                   <div class="form-group row clearfix has-feedback"
+                        ng-class="{'has-error': budgetForm.confMP.$invalid && (budgetForm.confMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege}">
+                     <label for="inputConfMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.CONFPWD' | translate }}</label>
+                     <div class="col-sm-4">
+                       <input ng-attr-type="password" class="form-control" name="confMP" ng-model="confMP" match="nouveauMotPasse" required>
+                       <span class="help-block error-block basic-block" ng-messages="budgetForm.confMP.$error" ng-if="budgetForm.confMP.$invalid && (budgetForm.confMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege">
+                         <p ng-message="match">{{ 'GLOBALE.AIDE.MOTPASSEMATCH' | translate }}</p>
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             <!- Ancien, Nouveau, Confirmation ->
+             <div ng-switch-when="true">
+               <div ng-switch on="modifMP" >
+                 <div ng-switch-when="true">
+                   <h3 class="with-line-top">{{ 'ECRAN.BUDGET.PARAMPWD' | translate }}</h3>
+                   <div class="row">
+                     <div class="col-md-12">
+                       <div class="form-group row clearfix has-feedback"
+                            ng-class="{'has-error': budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP}">
+                         <label for="inputAncienMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.ACTPWD' | translate }}</label>
+                         <div class="col-sm-4">
+                           <input ng-attr-type="password" class="form-control" name="valideAncienMP" ng-model="valideAncienMP" match="budgetActif.motPasse" required>
+                           <span class="help-block error-block basic-block" ng-messages="budgetForm.valideAncienMP.$error" ng-if="budgetForm.valideAncienMP.$invalid && (budgetForm.valideAncienMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP">
+                             <p ng-message="match">{{ 'GLOBALE.AIDE.MOTPASSEACTUELMATCH' | translate }}</p>
+                           </span>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-md-12">
+                       <div class="form-group row clearfix has-feedback"
+                            ng-class="{'has-error': budgetForm.nouveauMotPasse.$invalid && (budgetForm.nouveauMotPasse.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP}">
+                         <label for="inputNouveauMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.NOUVPWD' | translate }}</label>
+                         <div class="col-sm-4">
+                           <input ng-attr-type="password" class="form-control" name="nouveauMotPasse" ng-model="nouveauMotPasse" required>
+                           <span class="help-block error-block basic-block" ng-messages="budgetForm.nouveauMotPasse.$error" ng-if="budgetForm.nouveauMotPasse.$invalid && (budgetForm.nouveauMotPasse.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP">
+                             <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                           </span>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-md-12">
+                       <div class="form-group row clearfix has-feedback"
+                            ng-class="{'has-error': budgetForm.confMP.$invalid && (budgetForm.confMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP}">
+                         <label for="inputConfMotPasse" class="col-sm-3 control-label">{{ 'ECRAN.BUDGET.CONFPWD' | translate }}</label>
+                         <div class="col-sm-4">
+                           <input ng-attr-type="password" class="form-control" name="confMP" ng-model="confMP" match="nouveauMotPasse" required>
+                           <span class="help-block error-block basic-block" ng-messages="budgetForm.confMP.$error" ng-if="budgetForm.confMP.$invalid && (budgetForm.confMP.$touched || budgetForm.$submitted) && switcherBudgetActif.protege && modifMP">
+                             <p ng-message="match">{{ 'GLOBALE.AIDE.MOTPASSEMATCH' | translate }}</p>
+                           </span>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+        </div>
+       </div>
+-->
+    </div>
+
+    <div class="modal-footer">
+      <button ng-attr-type="submit" class="btn btn-primary btn-with-icon">
+        <i class="ion-android-checkmark-circle"></i>{{ 'GLOBALE.BOUTON.BOUAPPLIQUER' | translate }}
+      </button>
+      <button ng-attr-type="button" class="btn btn-danger btn-with-icon" ng-click="supprimeBudget()">
+        <i class="ion-android-delete"></i>{{ 'GLOBALE.BOUTON.SUPPRIMER' | translate }}
+      </button>
+      <button class="btn btn-default" ng-attr-type="button" ng-click="annuler()">{{ 'GLOBALE.BOUTON.ANNULER' | translate }}</button>
+    </div>
+  </form>
+</div>

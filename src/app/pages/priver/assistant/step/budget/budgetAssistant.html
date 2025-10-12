@@ -1,0 +1,64 @@
+<a ng-click="openHelp()" style="float: right;" class="msg" uib-dropdown-toggle>
+    <i style="font-size: 24px;" class="fa fa-question-circle-o fa-lg"></i>
+</a>
+<div class="flex flex-column">
+    <div ng-include="'app/pages/priver/profile/widgets/nouveauBudget.html'"></div>
+
+    <div class="flex flex-column">
+        <h3 class="with-line-top">{{ 'ECRAN.OLD_TO_NEW_BUDGET.NOUVEAU_BUDGET_DEBUTERA' | translate }}</h3>
+        <div class="flex">
+            <div class="flex-15"></div>
+            <div class="flex-column flex-100">
+                <div class="col-md-4">
+                    <label class="radio-inline custom-radio nowrap">
+                        <input ng-attr-type="radio" ng-model="vm.choixDateBudget" ng-value="1">
+                        <span>{{ 'ECRAN.OLD_TO_NEW_BUDGET.NEW_BUDGET_OPT1' | translate }} {{getDateNow()}}</span>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label class="radio-inline custom-radio nowrap">
+                        <input ng-attr-type="radio" ng-model="vm.choixDateBudget" ng-value="2">
+                        <span>{{ 'ECRAN.OLD_TO_NEW_BUDGET.NEW_BUDGET_OPT2' | translate }} {{getDateCurrentYear()}}</span>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label class="radio-inline custom-radio nowrap">
+                        <input ng-attr-type="radio" ng-model="vm.choixDateBudget" ng-value="3">
+                        <span>{{ 'ECRAN.OLD_TO_NEW_BUDGET.NEW_BUDGET_OPT3' | translate }} {{getDateNextYear()}}</span>
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <label class="radio-inline custom-radio nowrap">
+                        <input ng-attr-type="radio" ng-model="vm.choixDateBudget" ng-value="4">
+                        <span>{{ 'ECRAN.OLD_TO_NEW_BUDGET.NEW_BUDGET_OPT4' | translate }}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row clearfix has-feedback" ng-if="vm.choixDateBudget === 4">
+            <label class="col-sm-2 control-label">
+                {{ 'ECRAN.TRANSACTION.DATE_DEBUT' | translate }}
+            </label>
+            <div class="col-sm-2">
+                <div class="input-group"
+                     style="margin-bottom: 0px;"
+                     moment-picker="vm.dateDebut"
+                     format="YYYY-MM-DD"
+                     min-view="month"
+                     max-view="month"
+                     today="true"
+                     locale={{initialLocaleCode}}>     
+                    <input next-focus class="form-control" style="padding-right: 5px;" name="dateDebut"
+                           ng-model="vm.dateDebut"
+                           ng-model-options="{ updateOn: 'blur' }" required>
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+                <span class="help-block error-block basic-block"
+                      ng-messages="vm.dateDebut.$error"
+                      ng-if="vm.dateDebut.$invalid && (vm.dateDebut.$touched || vm.$submitted)">
+                    <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

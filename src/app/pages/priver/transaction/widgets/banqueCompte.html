@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group row clearfix has-feedback"
+         ng-class="{'has-error': banqueCompteForm.nomCompte.$invalid && (banqueCompteForm.nomCompte.$touched || banqueCompteForm.$submitted)}">
+      <label for="inputNomCompte" class="col-sm-4 control-label">{{ 'ECRAN.BANQUECOMPTE.NOMCOMPTE' | translate }}</label>
+      <div class="col-sm-8">
+        <input next-focus ng-attr-type="text" class="form-control" name="nomCompte" ng-model="banqueCompte.nomCompte" required>
+        <span class="help-block error-block basic-block" ng-messages="banqueCompteForm.nomCompte.$error" ng-if="banqueCompteForm.nomCompte.$invalid && (banqueCompteForm.nomCompte.$touched || banqueCompteForm.$submitted)">
+          <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group row clearfix has-feedback"
+         ng-class="{'has-error': (banqueCompteForm.$submitted)}">
+      <label for="selectCompte" class="col-sm-4 control-label">{{ 'ECRAN.BANQUECOMPTE.BANQUE' | translate }}</label>
+      <div class="col-sm-8">
+        <select class="form-control" name="compte" title="" ng-model="compteSelected" ng-options="compte as compte.nomSousPosteBudgetaireLov | translate group by compte.nomCategorie | translate for compte in compteOptions | orderBy:'nom | translate':false:localeSensitiveComparator | orderBy:'nomCategorie | translate':false:localeSensitiveComparator track by compte.id" selectpicker></select>
+      </div>
+    </div>
+  </div>
+</div> 

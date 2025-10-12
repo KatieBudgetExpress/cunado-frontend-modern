@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group row clearfix has-feedback"
+         ng-class="{'has-error': ventilationForm.description.$invalid && (ventilationForm.description.$touched || ventilationForm.$submitted)}">
+      <label for="inputDescription" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.DESCRIPTION' | translate }}</label>
+      <div class="col-sm-8">
+        <input next-focus ng-attr-type="text" class="form-control" name="description" ng-model="regleExceptionVentilation.description" required>
+        <span class="help-block error-block basic-block" ng-messages="ventilationForm.description.$error" ng-if="ventilationForm.description.$invalid && (ventilationForm.description.$touched || ventilationForm.$submitted)">
+          <p ng-message="required">{{ 'GLOBALE.AIDE.OBLIGATOIRE' | translate }}</p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-group row clearfix has-feedback"
+         ng-class="{'has-error': ventilationForm.montant.$invalid && (ventilationForm.montant.$touched || ventilationForm.$submitted)}">
+      <label for="inputMontant" class="col-sm-4 control-label">{{ 'ECRAN.TRANSACTION.OPEJRN_MNT_REEL' | translate }}</label>
+      <div class="col-sm-4">
+        <div class="input-group">
+          <input next-focus ng-attr-type="number" style="text-align: right; padding-right: 5px;" class="form-control with-success-addon no-spin" name="montant" ng-model="regleExceptionVentilation.montant" ng-pattern="/^-?[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+          <span class="input-group-addon addon-right input-group-addon-success">{{signe}}</span>
+        </div>
+        <span class="help-block error-block basic-block" ng-messages="ventilationForm.montant.$error" ng-if="ventilationForm.montant.$invalid && (ventilationForm.montant.$touched || ventilationForm.$submitted)">
+          <p ng-message when="pattern">{{ 'GLOBALE.AIDE.SAISIE_MONTANT' | translate }}</p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

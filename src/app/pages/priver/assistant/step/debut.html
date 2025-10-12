@@ -1,0 +1,38 @@
+<a ng-click="openHelp()" style="float: right;" class="msg" uib-dropdown-toggle>
+    <i style="font-size: 24px;" class="fa fa-question-circle-o fa-lg"></i>
+</a>
+<h2 class='assistant_title text-center' data-ng-bind-html="'ECRAN.ASSISTANT.DEBUT_TITRE' | translate | htmlSafe"></h2>
+<hr>
+<div class="flex-column">
+    <center>
+        <img src="assets/img/app/logo.svg" alt="Budget Express" style="width:200px; padding-top: 8px; padding-bottom: 16px;">
+    </center>    
+    <p class="p-16" style="font-weight: 600; line-height: 2.5;"
+       data-ng-bind-html="'ECRAN.ASSISTANT.DEBUT_DESCRIPTION' | translate | htmlSafe">
+    </p>
+</div>
+<center>
+    {{::'ECRAN.ASSISTANT.DEBUT_IMPORT' | translate }}
+    <div ng-if="!vm.file"
+         ng-model="vm.file" required
+         ngf-change="vm.upload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+         class="drop-box"
+         ngf-select
+         ngf-drop
+         ngf-drag-over-class="'dragover'"
+         accept=".db"
+         ngf-pattern="'.db'"
+         data-ng-bind-html="'ECRAN.CONVERSION.DROP_FILE_DSC' | translate | htmlSafe">
+    </div>
+    <div ngf-no-file-drop>
+        {{::'ECRAN.CONCILIATION.DROP_FILE_COMPATIBILITY' | translate }}
+    </div>
+
+    <div ng-if="vm.file">
+        <div style="padding: 8px;">{{::'ECRAN.CONCILIATION.NOM_FICHIER' | translate}}{{vm.file.name}}</div>
+        <button class="btn btn-primary no-animate"
+                ng-click="vm.file = null; vm.tableData = null;">
+            {{::'ECRAN.CONCILIATION.RESTART_IMPORT' | translate }}
+        </button>
+    </div>
+</center>
